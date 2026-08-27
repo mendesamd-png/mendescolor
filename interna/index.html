@@ -229,8 +229,8 @@
   <p class="sub">Frame RED em log e o pipeline completo rodando na GPU do seu navegador: grade, looks,
      os 13 filmes, halation, glow, grain, vignette, as LUT looks e o monitor. Mesmos números do DCTL,
      validados pixel a pixel. Arraste na imagem para mover o wipe.
-     <a href="editor.html?v=115" style="color:var(--accent);">Abrir em tela cheia&nbsp;&#8599;</a></p>
-  <iframe id="edframe" src="editor.html?embed=1&amp;v=115" loading="lazy" title="Editor Mendescolor"
+     <a href="editor.html?v=116" style="color:var(--accent);">Abrir em tela cheia&nbsp;&#8599;</a></p>
+  <iframe id="edframe" src="editor.html?embed=1&amp;v=116" loading="lazy" title="Editor Mendescolor"
           style="width:100%; height:720px; border:0; margin-top:26px; display:block;"></iframe>
 </section>
 
@@ -291,15 +291,19 @@
 <section id="resultados">
   <div class="eyebrow">Resultados</div>
   <h2>Grades finais, direto da timeline.</h2>
-  <p class="sub">Cenas reais finalizadas com o sistema: câmera, look, filme e óptica resolvidos no mesmo node.
-     Clique em um frame para ampliar; quando houver o log original, arraste para comparar.</p>
+  <p class="sub">Bateria de agosto/2026 com material real de doc: ALEXA Mini LF (LogC3) e Sony FX3 (S-Log3),
+     dezessete cenas com luzes diferentes, tudo gradeado no plugin v1.4 (conversão + look + filme + grain +
+     halation + glow + vinheta no mesmo node). Clique em um frame para ampliar e arraste para comparar com o log.</p>
   <div class="grid g3">
-    <div class="tile gal" data-g="0"><img src="../img/cella-final-g.jpg"></div>
-    <div class="tile gal" data-g="1"><img src="../img/ata-final2.jpg"></div>
-    <div class="tile gal" data-g="2"><img src="../img/ven-final-g.jpg"></div>
-    <div class="tile gal" data-g="3"><img src="../img/leroy-g.jpg"></div>
-    <div class="tile gal" data-g="4"><img src="../img/elev1-g.jpg"></div>
-    <div class="tile gal" data-g="5"><img src="../img/elev2-g.jpg"></div>
+    <div class="tile gal" data-g="0"><img src="../img/vov-01-piscina.jpg"></div>
+    <div class="tile gal" data-g="1"><img src="../img/vov-02-tecido.jpg"></div>
+    <div class="tile gal" data-g="2"><img src="../img/vov-04-retrato-lowkey.jpg"></div>
+    <div class="tile gal" data-g="3"><img src="../img/vov-05-veu.jpg"></div>
+    <div class="tile gal" data-g="4"><img src="../img/vov-09-livro.jpg"></div>
+    <div class="tile gal" data-g="5"><img src="../img/vov-10-sorriso-janela.jpg"></div>
+    <div class="tile gal" data-g="6"><img src="../img/vov-12-campo-alto.jpg"></div>
+    <div class="tile gal" data-g="7"><img src="../img/vov-14-time.jpg"></div>
+    <div class="tile gal" data-g="8"><img src="../img/vov-17-noite-tv.jpg"></div>
   </div>
 </section>
 
@@ -371,12 +375,15 @@
 
   // galeria de resultados com lightbox
   const GAL = [
-    { f: '../img/cella-final-g.jpg', l: '../img/cella-log-g.jpg', cap: 'RED · Log3G10 · arraste para comparar' },
-    { f: '../img/ata-final2.jpg',    l: '../img/ata-log2.jpg',    cap: 'Blackmagic Pocket 6K Pro · BRAW Gen5 · arraste para comparar' },
-    { f: '../img/ven-final-g.jpg',   l: '../img/ven-log-g.jpg',   cap: 'Sony FX3 · S-Log3 · arraste para comparar' },
-    { f: '../img/leroy-g.jpg',  l: null, cap: 'Grade final' },
-    { f: '../img/elev1-g.jpg',  l: null, cap: 'Grade final' },
-    { f: '../img/elev2-g.jpg',  l: null, cap: 'Grade final' },
+    { f: '../img/vov-01-piscina.jpg', l: '../img/vov-01-piscina-log.jpg', cap: 'Sony FX3 · S-Log3 · Coastal + Cinestill 50D + halation' },
+    { f: '../img/vov-02-tecido.jpg', l: '../img/vov-02-tecido-log.jpg', cap: 'Sony FX3 · S-Log3 · Salton + grain' },
+    { f: '../img/vov-04-retrato-lowkey.jpg', l: '../img/vov-04-retrato-lowkey-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Golden + Cinestill 50D + halation' },
+    { f: '../img/vov-05-veu.jpg', l: '../img/vov-05-veu-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Tahoe + glow' },
+    { f: '../img/vov-09-livro.jpg', l: '../img/vov-09-livro-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Kodachrome 64 + glow' },
+    { f: '../img/vov-10-sorriso-janela.jpg', l: '../img/vov-10-sorriso-janela-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Golden + VX400' },
+    { f: '../img/vov-12-campo-alto.jpg', l: '../img/vov-12-campo-alto-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Malibu' },
+    { f: '../img/vov-14-time.jpg', l: '../img/vov-14-time-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Ektar 25 · céu recuperado com o Render White Point' },
+    { f: '../img/vov-17-noite-tv.jpg', l: '../img/vov-17-noite-tv-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Neon + Cinestill 50D + halation' },
   ];
   const lb = document.getElementById('lb');
   const lbBox = lb.querySelector('.box');
