@@ -144,7 +144,7 @@
   footer { text-align: center; padding: 60px 20px 80px; color: var(--faint); font-size: 13.5px; }
 
   /* lightbox da galeria */
-  .tile.gal { cursor: pointer; }
+  .tile.gal { cursor: pointer; aspect-ratio: 16 / 9; }
   .lb { position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.86);
         backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
         display: none; align-items: center; justify-content: center; padding: 3vh 3vw; }
@@ -291,19 +291,28 @@
 <section id="resultados">
   <div class="eyebrow">Resultados</div>
   <h2>Grades finais, direto da timeline.</h2>
-  <p class="sub">Bateria de agosto/2026 com material real de doc: ALEXA Mini LF (LogC3) e Sony FX3 (S-Log3),
-     dezessete cenas com luzes diferentes, tudo gradeado no plugin v1.4 (conversão + look + filme + grain +
-     halation + glow + vinheta no mesmo node). Clique em um frame para ampliar e arraste para comparar com o log.</p>
+  <p class="sub">Dezessete cenas de material real de doc, gradeadas pelo Douglas na página Color e extraídas
+     direto da timeline: ARRI ALEXA Mini LF e ALEXA Mini (LogC3) e Sony FX3 (S-Log3), em luzes muito diferentes.
+     Um único node faz tudo: conversão para Rec.709 Gamma 2.4, look, filme, grain, halation, glow e vinheta.
+     A legenda de cada frame traz a receita exata usada. Clique para ampliar e arraste para comparar com o log.</p>
   <div class="grid g3">
-    <div class="tile gal" data-g="0"><img src="../img/vov-01-piscina.jpg"></div>
-    <div class="tile gal" data-g="1"><img src="../img/vov-02-tecido.jpg"></div>
-    <div class="tile gal" data-g="2"><img src="../img/vov-04-retrato-lowkey.jpg"></div>
-    <div class="tile gal" data-g="3"><img src="../img/vov-05-veu.jpg"></div>
-    <div class="tile gal" data-g="4"><img src="../img/vov-09-livro.jpg"></div>
-    <div class="tile gal" data-g="5"><img src="../img/vov-10-sorriso-janela.jpg"></div>
-    <div class="tile gal" data-g="6"><img src="../img/vov-12-campo-alto.jpg"></div>
-    <div class="tile gal" data-g="7"><img src="../img/vov-14-time.jpg"></div>
-    <div class="tile gal" data-g="8"><img src="../img/vov-17-noite-tv.jpg"></div>
+    <div class="tile gal" data-g="0"><img src="../img/tst-01-tecido-vermelho.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="1"><img src="../img/tst-02-tecido-agua.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="2"><img src="../img/tst-03-retrato-cetim.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="3"><img src="../img/tst-04-veu.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="4"><img src="../img/tst-05-rosto-escuro.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="5"><img src="../img/tst-06-mae-e-filho.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="6"><img src="../img/tst-07-sorriso-quadra.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="7"><img src="../img/tst-08-livro-sol.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="8"><img src="../img/tst-09-sorriso-folhas.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="9"><img src="../img/tst-10-fisioterapia.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="10"><img src="../img/tst-11-futebol-campo.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="11"><img src="../img/tst-12-gramado-alto.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="12"><img src="../img/tst-13-time-crianca.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="13"><img src="../img/tst-14-janela-reflexo.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="14"><img src="../img/tst-15-crianca-dormindo.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="15"><img src="../img/tst-16-menino-perfil.jpg" alt="" loading="lazy"></div>
+    <div class="tile gal" data-g="16"><img src="../img/tst-17-sala-tv.jpg" alt="" loading="lazy"></div>
   </div>
 </section>
 
@@ -375,15 +384,23 @@
 
   // galeria de resultados com lightbox
   const GAL = [
-    { f: '../img/vov-01-piscina.jpg', l: '../img/vov-01-piscina-log.jpg', cap: 'Sony FX3 · S-Log3 · Coastal + Cinestill 50D + halation' },
-    { f: '../img/vov-02-tecido.jpg', l: '../img/vov-02-tecido-log.jpg', cap: 'Sony FX3 · S-Log3 · Salton + grain' },
-    { f: '../img/vov-04-retrato-lowkey.jpg', l: '../img/vov-04-retrato-lowkey-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Golden + Cinestill 50D + halation' },
-    { f: '../img/vov-05-veu.jpg', l: '../img/vov-05-veu-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Tahoe + glow' },
-    { f: '../img/vov-09-livro.jpg', l: '../img/vov-09-livro-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Kodachrome 64 + glow · janela segura com White Point 20' },
-    { f: '../img/vov-10-sorriso-janela.jpg', l: '../img/vov-10-sorriso-janela-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Golden + VX400' },
-    { f: '../img/vov-12-campo-alto.jpg', l: '../img/vov-12-campo-alto-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Malibu' },
-    { f: '../img/vov-14-time.jpg', l: '../img/vov-14-time-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Ektar 25 · céu recuperado com o Render White Point' },
-    { f: '../img/vov-17-noite-tv.jpg', l: '../img/vov-17-noite-tv-log.jpg', cap: 'ALEXA Mini LF · LogC3 · Neon + Cinestill 50D + halation' },
+    { f: '../img/tst-01-tecido-vermelho.jpg', l: '../img/tst-01-tecido-vermelho-log.jpg', cap: 'Sony FX3 &middot; S-Log3 &middot; Coastal + Summer 49% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, glow &middot; White Point 10.3' },
+    { f: '../img/tst-02-tecido-agua.jpg', l: '../img/tst-02-tecido-agua-log.jpg', cap: 'Sony FX3 &middot; S-Log3 &middot; Malibu + Neon 49% &middot; Kodak Ektar 25 60% &middot; grain 35 mm, halation, glow &middot; White Point 10.3' },
+    { f: '../img/tst-03-retrato-cetim.jpg', l: '../img/tst-03-retrato-cetim-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; sem look &middot; Rollei Ortho 25 &middot; grain 35 mm, halation, glow' },
+    { f: '../img/tst-04-veu.jpg', l: '../img/tst-04-veu-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-05-rosto-escuro.jpg', l: '../img/tst-05-rosto-escuro-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-06-mae-e-filho.jpg', l: '../img/tst-06-mae-e-filho-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-07-sorriso-quadra.jpg', l: '../img/tst-07-sorriso-quadra-log.jpg', cap: 'ARRI ALEXA Mini &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-08-livro-sol.jpg', l: '../img/tst-08-livro-sol-log.jpg', cap: 'ARRI ALEXA Mini &middot; LogC3 &middot; Coastal 80% + Summer 42% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, vinheta &middot; White Point 2' },
+    { f: '../img/tst-09-sorriso-folhas.jpg', l: '../img/tst-09-sorriso-folhas-log.jpg', cap: 'ARRI ALEXA Mini &middot; LogC3 &middot; Coastal 80% + Neon 30% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, vinheta &middot; White Point 2' },
+    { f: '../img/tst-10-fisioterapia.jpg', l: '../img/tst-10-fisioterapia-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-11-futebol-campo.jpg', l: '../img/tst-11-futebol-campo-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Cinestill 50D 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-12-gramado-alto.jpg', l: '../img/tst-12-gramado-alto-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Neon 30% &middot; Kodak Ektar 25 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-13-time-crianca.jpg', l: '../img/tst-13-time-crianca-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Kodak Ektar 25 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-14-janela-reflexo.jpg', l: '../img/tst-14-janela-reflexo-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Summer 30% &middot; Kodak Ektar 25 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-15-crianca-dormindo.jpg', l: '../img/tst-15-crianca-dormindo-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Neon 30% &middot; Kodak Ektar 25 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-16-menino-perfil.jpg', l: '../img/tst-16-menino-perfil-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Neon 30% &middot; Kodak Ektar 25 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
+    { f: '../img/tst-17-sala-tv.jpg', l: '../img/tst-17-sala-tv-log.jpg', cap: 'ARRI ALEXA Mini LF &middot; LogC3 &middot; Coastal 80% + Neon 30% &middot; Kodak Ektar 25 60% &middot; grain 35 mm, halation, glow, vinheta &middot; White Point 2' },
   ];
   const lb = document.getElementById('lb');
   const lbBox = lb.querySelector('.box');
