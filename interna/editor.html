@@ -133,7 +133,7 @@
 // Estado (mesmos nomes, faixas e defaults do DCTL)
 // ---------------------------------------------------------------------------
 const DEF = {
-  inOpt: 4, outOpt: 1, lookMain: 3, lookSub: 12, antesMostra: 0, antesDepois: 1,
+  inOpt: 1, outOpt: 1, lookMain: 3, lookSub: 12, antesMostra: 0, antesDepois: 1,
   // v1.2: looks 0-3 parametricos, 4-12 LUT looks (Malibu..Summer)
   // default de vitrine: Neon 100% + Summer 30% (pedido do Douglas)
   forcaMain: 1.0, forcaSub: 0.3, expo: 0.0, temper: 0.0, tinta: 0.0, contr: 1.0,
@@ -620,7 +620,7 @@ function render() {
 }
 
 // frame log float16
-fetch('cella1-log.f16').then(r => r.arrayBuffer()).then(bufIn => {
+fetch('teste10-log.f16').then(r => r.arrayBuffer()).then(bufIn => {
   const meia = new Uint16Array(bufIn);
   const tex = gl.createTexture();
   gl.activeTexture(gl.TEXTURE0);

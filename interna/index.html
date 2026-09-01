@@ -253,8 +253,8 @@
   <div class="grid g2">
     <div class="tile"><img src="../img/tst-02-tecido-sol-log.jpg"><div class="lab">Sony FX3 · S-Log3</div></div>
     <div class="tile"><img src="../img/tst-02-tecido-sol.jpg"><div class="lab">Grade final</div></div>
-    <div class="tile"><img src="../img/red-log2.jpg"><div class="lab">RED · Log3G10</div></div>
-    <div class="tile"><img src="../img/red-final.jpg"><div class="lab">Grade final</div></div>
+    <div class="tile"><img src="../img/tst-10-fisioterapia-log.jpg"><div class="lab">ARRI ALEXA Mini LF · LogC3</div></div>
+    <div class="tile"><img src="../img/tst-10-fisioterapia.jpg"><div class="lab">Grade final</div></div>
     <div class="tile"><img src="../img/dji-log.jpg"><div class="lab">DJI · D-Log</div></div>
     <div class="tile"><img src="../img/dji-neon.jpg"><div class="lab">Neon · pipeline completo</div></div>
   </div>
@@ -319,21 +319,24 @@
 <section id="testar">
   <div class="eyebrow">Uso interno · Agência</div>
   <h2>Como testar.</h2>
-  <a class="dl glass" href="../downloads/Mendescolor-v1.3.0.zip" download>
-    <b>&#8595;&nbsp; Baixar o pacote v1.3.0</b>
-    <span>DCTL + 13 looks + PowerGrade + leia-me · 8 MB</span>
+  <a class="dl glass" href="../downloads/Mendescolor-v1.4.0-beta.zip" download>
+    <b>&#8595;&nbsp; Baixar o pacote v1.4.0 beta</b>
+    <span>DCTL + 13 looks + PowerGrade novo + leia-me · 8,7 MB</span>
   </a>
   <a class="dl glass" href="../downloads/Mendescolor-LUT-Edition-piloto.zip" download style="margin-left:14px;">
     <b>&#8595;&nbsp; LUT Edition · piloto</b>
     <span>23 LUTs .cube (v1.2) pra Premiere, Final Cut e afins · 24 MB</span>
   </a>
   <div class="steps">
-    <div class="step glass"><span class="n">01</span><b>Instalar</b><span>Baixe o pacote no botão acima. Copie "Mendescolor.dctl" e a pasta "looks/" para a pasta de LUTs do Resolve (Project Settings › Color Management › Open LUT Folder abre a pasta certa no Mac e no Windows) e reinicie o Resolve. Detalhes no LEIA-ME do pacote.</span></div>
+    <div class="step glass"><span class="n">01</span><b>Instalar</b><span>Baixe o pacote no botão acima. Copie "Mendescolor v1.4 beta.dctl" e a pasta "looks/" para a pasta de LUTs do Resolve (Project Settings › Color Management › Open LUT Folder abre a pasta certa no Mac e no Windows) e reinicie o Resolve. Detalhes no LEIA-ME do pacote.</span></div>
     <div class="step glass"><span class="n">02</span><b>Aplicar</b><span>Importe o "Mendescolor - PowerGrade.drx" na Gallery da página Color e arraste o still no clipe: o node chega com o plugin já selecionado, sem passar pelo None.</span></div>
-    <div class="step glass"><span class="n">03</span><b>Testar de verdade</b><span>Use material real do seu job: skin tone, playback em 4K, as 10 câmeras, os 13 filmes, halation e grain em movimento.</span></div>
+    <div class="step glass"><span class="n">03</span><b>Testar de verdade</b><span>Use material real do seu job: skin tone, playback em 4K, as 11 câmeras, os 13 filmes, halation e grain em movimento. Puxe o Render White Point num plano com sol ou janela: é o controle novo desta versão.</span></div>
     <div class="step glass"><span class="n">04</span><b>Feedback</b><span>O que estranhar, quebrar ou faltar: fala direto com o Douglas. É daqui que sai a próxima versão.</span></div>
   </div>
-  <div class="note">Build atual: v1.3.0 · Volume 1 · a pasta looks/ contém as 9 LUT looks e precisa ser instalada junto.</div>
+  <div class="note">Build atual: v1.4.0 beta · Volume 1 · a pasta looks/ contém as 9 LUT looks e precisa ser instalada junto.
+     <b>O PowerGrade da v1.3 não serve nesta versão:</b> a v1.3 tinha 32 sliders e a v1.4 tem 48, e os slots são posicionais,
+     então o arquivo antigo aplica valor em parâmetro errado. Use o PowerGrade que vem no pacote e refaça os nodes antigos.
+     As duas versões podem conviver na mesma pasta: os nomes de arquivo são diferentes.</div>
 </section>
 
 <section style="padding-top: 0;">
