@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Editor · Mendescolor</title>
+<title>Editor · MendesColor</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,7 +110,7 @@
 <body>
 <div class="aurora"></div>
 <header>
-  <div class="brand glass"><a href="index.html">Mendes<span style="color:var(--accent)">color</span> · Interna</a></div>
+  <div class="brand glass"><a href="index.html">Mendes<span class="accent">Color</span> · Interna</a></div>
   <a class="voltar glass" href="index.html">&#8592; Voltar</a>
 </header>
 
@@ -118,7 +118,7 @@
   <div class="titulo">
     <div class="eyebrow">Editor · engine no navegador</div>
     <h1>O plugin, ao vivo.</h1>
-    <p class="sub">Frame ARRI ALEXA Mini LF em LogC3 e o pipeline completo do Mendescolor portado pra GPU do seu
+    <p class="sub">Frame ARRI ALEXA Mini LF em LogC3 e o pipeline completo do MendesColor portado pra GPU do seu
        navegador: grade, os 13 looks (paramétricos + LUT looks), os 13 filmes, halation, glow, grain,
        vignette e monitor. Mesmos números do DCTL, validados pixel a pixel. Arraste na imagem para mover o wipe.</p>
   </div>
@@ -735,7 +735,7 @@ const SLIDERS = [
   ['combo', 'inOpt', 'Input', ENTRADAS],
   ['combo', 'outOpt', 'Output', ['DaVinci Intermediate DWG', 'Rec 709 Gamma 2 4']],
 ];
-let html = `<div class="pcab"><div class="rot">DCTL</div><div class="nome">Mendescolor · California Series Vol 1</div></div>`;
+let html = `<div class="pcab"><div class="rot">DCTL</div><div class="nome">MendesColor · California Series Vol 1</div></div>`;
 for (const row of SLIDERS) {
   if (row[0] === 'sec') { html += `<div class="psec">${row[1]}</div>`; continue; }
   if (row[0] === 'combo') {
