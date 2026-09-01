@@ -149,6 +149,15 @@
   .pill.on { background: var(--grad);
              color: #fff; border-color: transparent;
              box-shadow: 0 10px 30px rgba(139,92,246,0.32); }
+  .dl { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; margin: 26px 0 8px;
+        padding: 20px 46px; border-radius: 999px; text-decoration: none; color: var(--text);
+        transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; }
+  .dl::before { content: ""; position: absolute; inset: 0; border-radius: 999px;
+        background: radial-gradient(75% 130% at 112% 50%, rgba(253,224,71,0.62), transparent 62%), var(--grad);
+        pointer-events: none; }
+  .dl b { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: -0.01em; position: relative; }
+  .dl span { font-size: 13px; color: rgba(255,255,255,0.86); position: relative; }
+  .dl:hover { transform: translateY(-2px); box-shadow: 0 18px 50px rgba(139,92,246,0.34); }
   footer { text-align: center; padding: 60px 20px 80px; color: var(--faint); font-size: 13.5px; }
 
   /* lightbox da galeria */
@@ -179,6 +188,7 @@
     <a href="#films">Films</a>
     <a href="#fx">Óptica</a>
     <a href="#resultados">Resultados</a>
+    <a href="#testar">Testar</a>
     <a href="#planos">Planos</a>
   </nav>
   <button id="themeToggle" class="glass">◐ Tema</button>
@@ -284,6 +294,23 @@
     <div class="tile gal" data-g="4"><img src="img/tst-13-time-crianca.jpg" alt="" loading="lazy"></div>
     <div class="tile gal" data-g="5"><img src="img/tst-17-sala-tv.jpg" alt="" loading="lazy"></div>
   </div>
+</section>
+
+<section id="testar">
+  <div class="eyebrow">Teste antes de comprar</div>
+  <h2>Baixe e rode no <span class="accent">seu</span> material.</h2>
+  <p class="sub">A build de avaliação é o plugin de verdade: as 11 entradas de câmera, a conversão para
+     Rec.709 gamma 2.4, o estágio Render inteiro, os 13 filmes, grain, halation, glow, vignette e Color Head,
+     tudo liberado e sem limite. É na sua câmera e na sua cena que a conversão se prova.</p>
+  <a class="dl glass" href="downloads/MendesColor-v1.4.0-teste.zip" download>
+    <b>&#8595;&nbsp; Baixar a build de avaliação</b>
+    <span>DCTL + PowerGrade + leia-me · 81 KB · Resolve Studio 19.1+</span>
+  </a>
+  <div class="note">Duas diferenças para a versão paga, ditas na cara: a build de avaliação tem
+     <b>marca d'água</b> e traz só os <b>4 looks paramétricos</b>, sem as 9 LUT looks da California Series.
+     A marca é neutra de propósito, puxa os três canais para o mesmo cinza com a mesma dose, então muda a
+     luminância local e não introduz dominante. Fora das letras a imagem sai idêntica à da versão paga,
+     bit a bit: dá para julgar skin tone e balanço com ela na tela, e não dá para entregar job.</div>
 </section>
 
 <section id="planos">
