@@ -1,56 +1,63 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mendescolor · Interna</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap">
 <style>
-  :root[data-theme="dark"] {
-    --bg: #000; --text: #f5f5f7; --muted: #a1a1a6; --faint: #6e6e73;
-    --panel: rgba(255,255,255,0.07); --border: rgba(255,255,255,0.16);
-    --edge: rgba(255,255,255,0.22); --shadow: rgba(0,0,0,0.38);
-    --accent: #38e1ff; --ok: #30d158; --line: #1d1d1f;
-    --pillon: rgba(255,255,255,0.22);
+  :root {
+    /* acento unico: o gradiente. Nada de cor chapada concorrendo com os frames. */
+    --g1: #8B5CF6; --g2: #F472B6; --g3: #38BDF8; --g4: #FDE047;
+    --grad: linear-gradient(110deg, var(--g1), var(--g2) 46%, var(--g3));
+    --grad-txt: linear-gradient(100deg, var(--g1), var(--g2) 45%, var(--g3));
+    --radius: 26px;
   }
   :root[data-theme="light"] {
-    --bg: #f5f5f7; --text: #1d1d1f; --muted: #515154; --faint: #86868b;
-    --panel: rgba(255,255,255,0.55); --border: rgba(0,0,0,0.10);
-    --edge: rgba(255,255,255,0.75); --shadow: rgba(0,0,0,0.10);
-    --accent: #0a84c9; --ok: #1f9d4d; --line: #d9d9de;
-    --pillon: rgba(255,255,255,0.92);
+    --bg: #F7F6F3; --bg2: #FFFFFF; --text: #17171C; --muted: #55555F; --faint: #78787F;
+    --panel: rgba(255,255,255,0.78); --border: rgba(23,23,28,0.09);
+    --edge: rgba(255,255,255,0.90); --shadow: rgba(23,23,28,0.07);
+    --accent: #7C3AED; --ok: #1f9d4d; --line: rgba(23,23,28,0.10);
+    --pillon: rgba(23,23,28,0.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0C0C11; --bg2: #14141B; --text: #F4F4F7; --muted: #A9A9B6; --faint: #75757F;
+    --panel: rgba(255,255,255,0.06); --border: rgba(255,255,255,0.12);
+    --edge: rgba(255,255,255,0.10); --shadow: rgba(0,0,0,0.40);
+    --accent: #A78BFA; --ok: #30d158; --line: rgba(255,255,255,0.12);
+    --pillon: rgba(255,255,255,0.10);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: "Satoshi", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-         background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; transition: background .4s, color .4s; }
+  body { font-family: "Onest", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+         font-size: 17px; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased;
+         transition: background .4s, color .4s; }
   section { max-width: 1180px; margin: 0 auto; padding: 110px 32px; scroll-margin-top: 84px; }
-  h1 { font-family: "Archivo Black", "Satoshi", sans-serif; font-weight: 400; text-transform: uppercase;
-       font-size: clamp(34px, 5.6vw, 74px); letter-spacing: -0.01em; line-height: 1.04; }
-  h2 { font-family: "Archivo Black", "Satoshi", sans-serif; font-weight: 400; text-transform: uppercase;
-       font-size: clamp(26px, 3.8vw, 46px); letter-spacing: -0.008em; line-height: 1.1; margin-bottom: 14px; }
-  .sub { font-size: 20px; color: var(--muted); line-height: 1.55; letter-spacing: -0.005em; font-weight: 500; }
-  .eyebrow { font-family: "Space Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700;
-             letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-  .accent { color: var(--accent); }
+  h1 { font-family: inherit; font-weight: 700; text-transform: none;
+       font-size: clamp(38px, 5.4vw, 72px); letter-spacing: -0.03em; line-height: 1.05; }
+  h2 { font-family: inherit; font-weight: 600; text-transform: none;
+       font-size: clamp(28px, 3.6vw, 46px); letter-spacing: -0.025em; line-height: 1.12; margin-bottom: 14px; }
+  .sub { font-size: 19px; color: var(--muted); line-height: 1.55; letter-spacing: -0.005em; font-weight: 500; }
+  .eyebrow { font-family: inherit; font-size: 12.5px; font-weight: 600;
+             letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .accent { background: var(--grad-txt); -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent; color: transparent; }
   .glass { background: var(--panel); border: 1px solid var(--border);
-           backdrop-filter: blur(40px) saturate(130%); -webkit-backdrop-filter: blur(40px) saturate(130%);
-           box-shadow: inset 0 1px 0 var(--edge), 0 12px 40px var(--shadow); border-radius: 20px; }
+           backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5);
+           box-shadow: 0 10px 30px var(--shadow), 0 2px 6px var(--shadow); border-radius: var(--radius); }
   .aurora { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
-  .aurora::before { content: ""; position: absolute; width: 60vw; height: 60vh; left: -18vw; top: -14vh;
-    background: radial-gradient(closest-side, rgba(56,225,255,0.18), transparent); filter: blur(70px); }
-  .aurora::after { content: ""; position: absolute; width: 60vw; height: 60vh; right: -20vw; bottom: -18vh;
-    background: radial-gradient(closest-side, rgba(139,92,246,0.20), transparent); filter: blur(80px); }
+  .aurora::before { content: ""; position: absolute; width: 62vw; height: 62vh; left: -16vw; top: -12vh;
+    background: radial-gradient(closest-side, rgba(139,92,246,0.30), transparent); filter: blur(80px); }
+  .aurora::after { content: ""; position: absolute; width: 62vw; height: 62vh; right: -18vw; bottom: -16vh;
+    background: radial-gradient(closest-side, rgba(56,189,248,0.26), transparent); filter: blur(90px); }
 
   /* topo */
   header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between;
            align-items: center; gap: 10px; padding: 14px 24px; }
-  .brand { font-family: "Archivo Black", sans-serif; font-weight: 400; text-transform: uppercase;
+  .brand { font-family: inherit; font-weight: 800; text-transform: uppercase;
            font-size: 13px; letter-spacing: 0.01em; padding: 12px 18px; white-space: nowrap; }
   header nav { display: flex; gap: 2px; padding: 6px 8px; border-radius: 999px; overflow-x: auto;
                scrollbar-width: none; max-width: 100%; }
@@ -73,6 +80,8 @@
   .hero .card { position: relative; margin-bottom: 7vh; text-align: center; padding: 34px 52px; color: #f5f5f7;
                 background: rgba(12,12,14,0.42); border-color: rgba(255,255,255,0.20); }
   .hero .card .sub { color: #d2d2d7; }
+  /* o cartao do hero e escuro nos dois temas: o acento precisa clarear ali */
+  .hero .card .eyebrow { color: #C4B5FD; }
 
   /* slider antes/depois */
   .compare { position: relative; border-radius: 20px; overflow: hidden; user-select: none; touch-action: none; cursor: ew-resize; }
@@ -96,7 +105,7 @@
   .g5 { grid-template-columns: repeat(5, 1fr); }
   @media (max-width: 900px) { .g4, .g5 { grid-template-columns: repeat(2, 1fr); } .g3 { grid-template-columns: 1fr; }
     .steps { flex-direction: column; } }
-  .tile { position: relative; border-radius: 16px; overflow: hidden; }
+  .tile { position: relative; border-radius: 18px; overflow: hidden; }
   .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .tile .lab { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 13px; font-size: 13px; font-weight: 600;
     color: #fff; background: linear-gradient(0deg, rgba(0,0,0,0.72), transparent); }
@@ -116,14 +125,14 @@
   .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 36px; }
   @media (max-width: 900px) { .tiers { grid-template-columns: 1fr; } }
   .tier { padding: 32px 28px; }
-  .tier.hi { border-color: var(--accent); }
+  .tier.hi { border-color: transparent; box-shadow: 0 0 0 2px var(--g1), 0 14px 40px rgba(139,92,246,0.20); }
   .tier h3 { font-size: 20px; }
   .tier .preco { font-size: 42px; font-weight: 700; letter-spacing: -0.02em; margin: 12px 0 2px; }
   .tier .conf { font-size: 12px; color: var(--accent); margin-bottom: 14px; }
   .tier ul { list-style: none; font-size: 15px; line-height: 1.9; color: var(--muted); }
   .tier ul li::before { content: "· "; color: var(--accent); font-weight: 700; }
 
-  .carousel { position: relative; border-radius: 20px; overflow: hidden; margin-top: 34px; }
+  .carousel { position: relative; border-radius: var(--radius); overflow: hidden; margin-top: 34px; }
   .carousel img.slide { display: block; width: 100%; }
   .carousel .clab { position: absolute; left: 18px; bottom: 18px; font-size: 17px; font-weight: 700; color: #fff;
     padding: 8px 16px; border-radius: 999px; background: rgba(0,0,0,0.45);
@@ -138,9 +147,9 @@
           backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
           transition: color .2s, border-color .2s, background .2s; }
   .pill:hover { color: var(--text); border-color: var(--edge); }
-  .pill.on { background: linear-gradient(90deg, rgba(56,225,255,0.85), rgba(139,92,246,0.85));
-             color: #0b0b0c; border-color: transparent;
-             box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), 0 8px 24px var(--shadow); }
+  .pill.on { background: var(--grad);
+             color: #fff; border-color: transparent;
+             box-shadow: 0 10px 30px rgba(139,92,246,0.32); }
   footer { text-align: center; padding: 60px 20px 80px; color: var(--faint); font-size: 13.5px; }
 
   /* lightbox da galeria */
@@ -159,15 +168,15 @@
 
   /* demo interativa */
   .playbar { display: flex; align-items: center; gap: 16px; margin-top: 20px; }
-  .playbar label { font-family: "Space Mono", ui-monospace, monospace; font-size: 12px; font-weight: 700;
+  .playbar label { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; font-weight: 700;
                    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
   .pslider { -webkit-appearance: none; appearance: none; flex: 1; height: 6px; border-radius: 999px;
              background: var(--panel); border: 1px solid var(--border); outline: none; }
   .pslider::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%;
-      background: linear-gradient(135deg, #38e1ff, #8b5cf6); border: 1.5px solid rgba(255,255,255,0.75);
+      background: var(--grad); border: 1.5px solid rgba(255,255,255,0.75);
       cursor: pointer; box-shadow: 0 4px 16px var(--shadow); }
   .pslider::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%;
-      background: linear-gradient(135deg, #38e1ff, #8b5cf6); border: 1.5px solid rgba(255,255,255,0.75); cursor: pointer; }
+      background: var(--grad); border: 1.5px solid rgba(255,255,255,0.75); cursor: pointer; }
   .pval { font-weight: 900; min-width: 52px; text-align: right; font-size: 15px; }
 
   /* botao de download */
@@ -175,10 +184,11 @@
         padding: 20px 46px; border-radius: 999px; text-decoration: none; color: var(--text);
         transition: transform .2s, box-shadow .2s; position: relative; overflow: hidden; }
   .dl::before { content: ""; position: absolute; inset: 0; border-radius: 999px;
-        background: linear-gradient(90deg, rgba(56,225,255,0.28), rgba(139,92,246,0.28)); pointer-events: none; }
-  .dl b { font-size: 19px; font-weight: 900; letter-spacing: -0.01em; position: relative; }
-  .dl span { font-size: 13px; color: var(--muted); position: relative; }
-  .dl:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 var(--edge), 0 18px 50px var(--shadow); }
+        background: radial-gradient(75% 130% at 112% 50%, rgba(253,224,71,0.62), transparent 62%), var(--grad);
+        pointer-events: none; }
+  .dl b { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: -0.01em; position: relative; }
+  .dl span { font-size: 13px; color: rgba(255,255,255,0.86); position: relative; }
+  .dl:hover { transform: translateY(-2px); box-shadow: 0 18px 50px rgba(139,92,246,0.34); }
   .note { font-size: 13px; color: var(--faint); margin-top: 18px; line-height: 1.5; }
 </style>
 </head>
@@ -212,10 +222,10 @@
 <section id="demo">
   <div class="eyebrow">Arraste para comparar</div>
   <h2>Do log ao look.<br><span class="accent">Em um arraste.</span></h2>
-  <p class="sub">ARRI ALEXA Mini LF, LogC3. Esquerda: o arquivo como sai da câmera. Direita: o grade final, feito com o Mendescolor.</p>
+  <p class="sub">ARRI ALEXA Mini, LogC3. Esquerda: o arquivo como sai da câmera. Direita: o grade final, feito com o Mendescolor.</p>
   <div class="compare glass" id="cmp1" style="margin-top:34px;">
-    <img src="../img/tst-12-gramado-alto.jpg" alt="Resultado final">
-    <div class="top" id="cmp1top"><img src="../img/tst-12-gramado-alto-log.jpg" alt="Log original"></div>
+    <img src="../img/tst-08-livro-sol.jpg" alt="Resultado final">
+    <div class="top" id="cmp1top"><img src="../img/tst-08-livro-sol-log.jpg" alt="Log original"></div>
     <div class="divider" id="cmp1div"></div>
     <div class="knob" id="cmp1knob">&#9666;&#9656;</div>
     <div class="tag l">Log original</div>
@@ -255,8 +265,8 @@
     <div class="tile"><img src="../img/tst-02-tecido-sol.jpg"><div class="lab">Grade final</div></div>
     <div class="tile"><img src="../img/tst-10-fisioterapia-log.jpg"><div class="lab">ARRI ALEXA Mini LF · LogC3</div></div>
     <div class="tile"><img src="../img/tst-10-fisioterapia.jpg"><div class="lab">Grade final</div></div>
-    <div class="tile"><img src="../img/dji-log.jpg"><div class="lab">DJI · D-Log</div></div>
-    <div class="tile"><img src="../img/dji-neon.jpg"><div class="lab">Neon · pipeline completo</div></div>
+    <div class="tile"><img src="../img/cella-log-g.jpg"><div class="lab">RED · Log3G10</div></div>
+    <div class="tile"><img src="../img/cella-final-g.jpg"><div class="lab">Grade final</div></div>
   </div>
 </section>
 

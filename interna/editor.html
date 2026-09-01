@@ -1,43 +1,51 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Editor · Mendescolor</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap">
 <style>
-  :root[data-theme="dark"] {
-    --bg: #000; --text: #f5f5f7; --muted: #a1a1a6; --faint: #6e6e73;
-    --panel: rgba(255,255,255,0.07); --border: rgba(255,255,255,0.16);
-    --edge: rgba(255,255,255,0.22); --shadow: rgba(0,0,0,0.38);
-    --accent: #38e1ff; --line: #1d1d1f;
+  :root {
+    /* acento unico: o gradiente. Nada de cor chapada concorrendo com os frames. */
+    --g1: #8B5CF6; --g2: #F472B6; --g3: #38BDF8; --g4: #FDE047;
+    --grad: linear-gradient(110deg, var(--g1), var(--g2) 46%, var(--g3));
+    --grad-txt: linear-gradient(100deg, var(--g1), var(--g2) 45%, var(--g3));
+    --radius: 26px;
   }
   :root[data-theme="light"] {
-    --bg: #f5f5f7; --text: #1d1d1f; --muted: #515154; --faint: #86868b;
-    --panel: rgba(255,255,255,0.55); --border: rgba(0,0,0,0.10);
-    --edge: rgba(255,255,255,0.75); --shadow: rgba(0,0,0,0.10);
-    --accent: #0a84c9; --line: #d9d9de;
+    --bg: #F7F6F3; --bg2: #FFFFFF; --text: #17171C; --muted: #55555F; --faint: #78787F;
+    --panel: rgba(255,255,255,0.78); --border: rgba(23,23,28,0.09);
+    --edge: rgba(255,255,255,0.90); --shadow: rgba(23,23,28,0.07);
+    --accent: #7C3AED; --ok: #1f9d4d; --line: rgba(23,23,28,0.10);
+    --pillon: rgba(23,23,28,0.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0C0C11; --bg2: #14141B; --text: #F4F4F7; --muted: #A9A9B6; --faint: #75757F;
+    --panel: rgba(255,255,255,0.06); --border: rgba(255,255,255,0.12);
+    --edge: rgba(255,255,255,0.10); --shadow: rgba(0,0,0,0.40);
+    --accent: #A78BFA; --ok: #30d158; --line: rgba(255,255,255,0.12);
+    --pillon: rgba(255,255,255,0.10);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: "Satoshi", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-         background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+  body { font-family: "Onest", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+         font-size: 17px; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased;
+         }
   .glass { background: var(--panel); border: 1px solid var(--border);
-           backdrop-filter: blur(40px) saturate(130%); -webkit-backdrop-filter: blur(40px) saturate(130%);
-           box-shadow: inset 0 1px 0 var(--edge), 0 12px 40px var(--shadow); border-radius: 20px; }
+           backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5);
+           box-shadow: 0 10px 30px var(--shadow), 0 2px 6px var(--shadow); border-radius: var(--radius); }
   .aurora { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
-  .aurora::before { content: ""; position: absolute; width: 60vw; height: 60vh; left: -18vw; top: -14vh;
-    background: radial-gradient(closest-side, rgba(56,225,255,0.18), transparent); filter: blur(70px); }
-  .aurora::after { content: ""; position: absolute; width: 60vw; height: 60vh; right: -20vw; bottom: -18vh;
-    background: radial-gradient(closest-side, rgba(139,92,246,0.20), transparent); filter: blur(80px); }
+  .aurora::before { content: ""; position: absolute; width: 62vw; height: 62vh; left: -16vw; top: -12vh;
+    background: radial-gradient(closest-side, rgba(139,92,246,0.30), transparent); filter: blur(80px); }
+  .aurora::after { content: ""; position: absolute; width: 62vw; height: 62vh; right: -18vw; bottom: -16vh;
+    background: radial-gradient(closest-side, rgba(56,189,248,0.26), transparent); filter: blur(90px); }
 
   header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between;
            align-items: center; gap: 10px; padding: 14px 24px; }
-  .brand { font-family: "Archivo Black", sans-serif; text-transform: uppercase; font-size: 13px;
+  .brand { font-family: inherit; font-weight: 800; text-transform: uppercase; font-size: 13px;
            letter-spacing: 0.01em; padding: 12px 18px; white-space: nowrap; }
   .brand a { color: inherit; text-decoration: none; }
   .voltar { color: var(--muted); text-decoration: none; font-size: 13.5px; font-weight: 600; padding: 10px 18px; }
@@ -45,9 +53,9 @@
 
   main { max-width: 1560px; margin: 0 auto; padding: 96px 24px 60px; }
   .titulo { margin-bottom: 20px; }
-  .eyebrow { font-family: "Space Mono", ui-monospace, monospace; font-size: 13px; font-weight: 700;
+  .eyebrow { font-family: inherit; font-size: 12.5px; font-weight: 600;
              letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
-  h1 { font-family: "Archivo Black", sans-serif; font-weight: 400; text-transform: uppercase;
+  h1 { font-family: inherit; font-weight: 700; text-transform: none; letter-spacing: -0.03em;
        font-size: clamp(24px, 3.4vw, 42px); letter-spacing: -0.008em; line-height: 1.08; }
   .sub { font-size: 16px; color: var(--muted); margin-top: 8px; max-width: 900px; line-height: 1.5; }
 
@@ -65,7 +73,7 @@
           padding: 3.5px 2px; }
   .prow label { font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: right;
                 white-space: nowrap; overflow: hidden; }
-  .prow .val { font-family: "Space Mono", monospace; font-size: 10.5px; color: var(--text); text-align: right; }
+  .prow .val { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10.5px; color: var(--text); text-align: right; }
   .prow .rst { color: var(--faint); font-size: 11px; cursor: pointer; border: none; background: none; padding: 0; }
   .prow .rst:hover { color: var(--accent); }
   input[type=range].es { -webkit-appearance: none; appearance: none; width: 100%; height: 3px;
@@ -80,14 +88,14 @@
   :root[data-theme="light"] .prow select { background: rgba(255,255,255,0.8); }
   .prow select option { color: #111; }
   .prow input[type=checkbox] { grid-column: 2 / 4; justify-self: start; accent-color: var(--accent); }
-  .psec { font-family: "Space Mono", monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+  .psec { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
           text-transform: uppercase; color: var(--accent); margin: 12px 2px 5px; }
   .pcab { display: grid; grid-template-columns: 108px 1fr; gap: 8px; align-items: center; padding: 2px 2px 10px;
           border-bottom: 1px solid var(--line); margin-bottom: 8px; }
   .pcab .rot { font-size: 11.5px; font-weight: 600; color: var(--muted); text-align: right; }
   .pcab .nome { font-size: 11.5px; font-weight: 700; background: rgba(255,255,255,0.08);
                 border: 1px solid var(--border); border-radius: 7px; padding: 5px 8px; }
-  #valBox { margin-top: 16px; font-family: "Space Mono", monospace; font-size: 12px; color: var(--muted);
+  #valBox { margin-top: 16px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--muted);
             white-space: pre-wrap; }
   @media (max-width: 980px) { .estudio { flex-direction: column; } .painel { width: 100%; max-height: none; }
     .palco { position: relative; top: 0; } }
