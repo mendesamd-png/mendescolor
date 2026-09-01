@@ -123,7 +123,7 @@
     <p class="sub">Frame ARRI ALEXA Mini LF em LogC3 e o pipeline completo do MendesColor portado pra GPU do seu
        navegador: grade, os 13 looks (paramétricos + LUT looks), os 13 filmes, o estágio Render com White Point,
        o balanço primário por canal, halation, glow, grain, vignette e monitor. Mesma ordem de painel e os mesmos
-       números do DCTL v1.5, validados pixel a pixel contra o próprio plugin. Arraste na imagem para mover o wipe.</p>
+       números do DCTL v1.6, validados pixel a pixel contra o próprio plugin. Arraste na imagem para mover o wipe.</p>
   </div>
 
   <div class="estudio">
@@ -178,7 +178,7 @@ const GRAOS = ["8 mm ISO 50", "8 mm ISO 250", "8 mm ISO 500", "16 mm ISO 50", "1
 const BITOLAS = ["8 mm Super 8", "16 mm Super 16", "35 mm Super 35", "65 mm 70 mm"];
 
 // ---------------------------------------------------------------------------
-// WebGL2: engine completo portado do DCTL v1.5.0
+// WebGL2: engine completo portado do DCTL v1.6.0
 // ---------------------------------------------------------------------------
 const cv = document.getElementById('cv');
 const gl = cv.getContext('webgl2', { antialias: false, preserveDrawingBuffer: true });
@@ -201,8 +201,7 @@ uniform float uHeadYB, uHeadMG, uHeadCR;
 uniform float uWarmth, uLift, uSatMul, uConMul, uDenBias;
 uniform vec3 uShTint, uHiTint;
 uniform mat3 uMatIn, uMatOut, uPrintXtalk;
-uniform float uLogc3Top[41];
-uniform float uLogc3TopL2[41];
+uniform float uLogc3Altas[29];
 uniform int uRendOn;
 uniform float uRendSh, uRendWhite, uRendDesat, uRendGamut;
 uniform float uLiftM, uLiftR, uLiftG, uLiftB;
@@ -240,28 +239,28 @@ float di_decode(float y) {
   return (y <= 0.02740668) ? (y / 10.44426855) : (exp2(y / 0.07329248 - 7.0) - 0.0075);
 }
 float logc3_decode(float y) {
-  if (y > 0.60) {
-    // Catmull-Rom sobre o log2 dos valores medidos: a interpolacao linear
-    // quebrava a derivada em cada um dos 41 nos e facetava alta luz de ARRI.
-    float t = (y - 0.60) / 0.01;
-    if (t >= 40.0) {
-      float incl = uLogc3TopL2[40] - uLogc3TopL2[39];
-      return exp2(uLogc3TopL2[40] + (t - 40.0) * incl);
-    }
-    int i = clamp(int(t), 0, 39);
-    float f = t - float(i);
-    float p0 = uLogc3TopL2[max(i - 1, 0)];
-    float p1 = uLogc3TopL2[i];
-    float p2 = uLogc3TopL2[min(i + 1, 40)];
-    float p3 = uLogc3TopL2[min(i + 2, 40)];
-    float c1 = p2 - p0;
-    float c2 = 2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3;
-    float c3 = -p0 + 3.0 * p1 - 3.0 * p2 + p3;
-    return exp2(0.5 * (2.0 * p1 + c1 * f + c2 * f * f + c3 * f * f * f));
-  }
+  // formula publicada da ARRI (LogC3, EI 800). O ombro proprio do Resolve nao
+  // vive aqui: ele age depois da matriz, em logc3_altas().
   return (y > 5.367655 * 0.010591 + 0.092809)
     ? ((exp10((y - 0.385537) / 0.247190) - 0.052272) / 5.555556)
     : ((y - 0.092809) / 5.367655);
+}
+// Extensao de altas do LogC3, medida contra um render real de CST. Age em DWG
+// linear, POR CANAL, depois da matriz de gamut: e assim que o Resolve faz.
+float logc3_altas(float x) {
+  if (x <= 1.0) { return x; }
+  float t = log2(x) / 0.25;
+  if (t >= 28.0) { return x * uLogc3Altas[28]; }
+  int i = clamp(int(t), 0, 27);
+  float f = t - float(i);
+  float p0 = uLogc3Altas[max(i - 1, 0)];
+  float p1 = uLogc3Altas[i];
+  float p2 = uLogc3Altas[min(i + 1, 28)];
+  float p3 = uLogc3Altas[min(i + 2, 28)];
+  float c1 = p2 - p0;
+  float c2 = 2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3;
+  float c3 = -p0 + 3.0 * p1 - 3.0 * p2 + p3;
+  return x * 0.5 * (2.0 * p1 + c1 * f + c2 * f * f + c3 * f * f * f);
 }
 float logc4_decode(float y) {
   float a = (262144.0 - 16.0) / 117.45;
@@ -319,7 +318,9 @@ vec3 entrada_para_dwg(vec3 c) {
   else if (uInOpt == 8) { lin = vec3(flog2_decode(c.r), flog2_decode(c.g), flog2_decode(c.b)); }
   else if (uInOpt == 9) { lin = vec3(dlog_decode(c.r), dlog_decode(c.g), dlog_decode(c.b)); }
   else                  { lin = vec3(applelog_decode(c.r), applelog_decode(c.g), applelog_decode(c.b)); }
-  return uMatIn * lin;
+  vec3 dwg = uMatIn * lin;
+  if (uInOpt == 1) { dwg = vec3(logc3_altas(dwg.r), logc3_altas(dwg.g), logc3_altas(dwg.b)); }
+  return dwg;
 }
 float shoulder709(float x) {
   return (x <= 0.6) ? x : (0.6 + (1.0 - exp(-(x - 0.6) / 0.4)) * 0.4);
@@ -355,6 +356,10 @@ float render_gamut_dist(float d, float thr, float lim) {
   float s = (lim - thr) / sqrt(lim - 1.0);
   float nd = (d - thr) / s;
   return thr + s * nd / sqrt(1.0 + nd * nd);
+}
+float oetf709(float L) {
+  if (L <= 0.0) { return 0.0; }
+  return (L < 0.018) ? (4.5 * L) : (1.099 * pow(L, 0.45) - 0.099);
 }
 vec3 render_rec709(vec3 d) {
   vec3 rec = uMatOut * d;
@@ -649,6 +654,11 @@ void main() {
     vec3 l = texture(uLutS, (c * (uLutSN - 1.0) + 0.5) / uLutSN).rgb;
     rec += (l - rec) * uDoseS;
   }
+  if (uOutOpt == 2) {
+    rec = vec3(oetf709(pow(clamp(rec.r, 0.0, 1.0), 2.4)),
+               oetf709(pow(clamp(rec.g, 0.0, 1.0), 2.4)),
+               oetf709(pow(clamp(rec.b, 0.0, 1.0), 2.4)));
+  }
   outColor = vec4(monitor_overlay(rec), 1.0);
 }`;
 
@@ -683,8 +693,7 @@ const IDENT = [1, 0, 0, 0, 1, 0, 0, 0, 1];
 // tabelas estaticas (uma vez)
 gl.uniformMatrix3fv(U.uMatOut, false, colMajor(ENG.MAT_DWG_REC709));
 gl.uniformMatrix3fv(U.uPrintXtalk, false, colMajor(ENG.PRINT_XTALK));
-gl.uniform1fv(U.uLogc3Top, ENG.LOGC3_TOP);
-gl.uniform1fv(U.uLogc3TopL2, ENG.LOGC3_TOP.map(Math.log2));
+gl.uniform1fv(U.uLogc3Altas, ENG.LOGC3_ALTAS);
 for (const [uni, tab] of [['uFilmBW', 'FILM_BW'], ['uFilmCon', 'FILM_CON'], ['uFilmSat', 'FILM_SAT'],
   ['uFilmToe', 'FILM_TOE'], ['uFilmSho', 'FILM_SHO'], ['uFilmXt', 'FILM_XT'], ['uFilmDen', 'FILM_DEN'],
   ['uFilmGrn', 'FILM_GRN'], ['uFilmLift', 'FILM_LIFT'], ['uFilmHal', 'FILM_HAL'],
@@ -874,7 +883,7 @@ const SLIDERS = [
   ['combo', 'antesMostra', 'Before Shows', ['Original Log', 'Rec 709 Base']],
   ['sec', 'IO'],
   ['combo', 'inOpt', 'Input', ENTRADAS],
-  ['combo', 'outOpt', 'Output', ['DaVinci Intermediate DWG', 'Rec 709 Gamma 2 4']],
+  ['combo', 'outOpt', 'Output', ['DaVinci Intermediate DWG', 'Rec 709 Gamma 2 4', 'Rec 709 Scene BT 709']],
 ];
 let html = `<div class="pcab"><div class="rot">DCTL</div><div class="nome">MendesColor · California Series Vol 1</div></div>`;
 // No Resolve os menus caem todos no fim do Inspector, porque ele agrupa por
@@ -986,6 +995,7 @@ async function validar() {
     ['ref-v14',       { rendWhite: 8.0, rendDesat: 0.4, rendGamut: 0.8, rendSh: 0.25,
                         gainR: 1.25, gainB: 0.85, liftM: 0.02, liftG: -0.015,
                         gamM: 1.1, gamB: 0.9, expo: 1.4 }],
+    ['ref-v16',       { outOpt: 2, expo: 0.6, rendWhite: 4.0 }],
     ['ref-v11',       { grao: 0.4, halat: 0.6, glowa: 0.3, halAmp: 2.0, halThresh: 0.35,
                         halSpread: 0.6, halSat: 1.5, glowAmp: 2.0, headShTone: 30,
                         headMidTone: -10, headHiTone: -20, headImpact: 80, grainProf: 10 }],
