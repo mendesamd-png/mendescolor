@@ -88,6 +88,8 @@
   :root[data-theme="light"] .prow select { background: rgba(255,255,255,0.8); }
   .prow select option { color: #111; }
   .prow input[type=checkbox] { grid-column: 2 / 4; justify-self: start; accent-color: var(--accent); }
+  .pnota { font-size: 11px; line-height: 1.45; color: var(--faint); margin: 0 2px 10px;
+           padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; }
   .psec { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
           text-transform: uppercase; color: var(--accent); margin: 12px 2px 5px; }
   .pcab { display: grid; grid-template-columns: 108px 1fr; gap: 8px; align-items: center; padding: 2px 2px 10px;
@@ -120,8 +122,8 @@
     <h1>O plugin, ao vivo.</h1>
     <p class="sub">Frame ARRI ALEXA Mini LF em LogC3 e o pipeline completo do MendesColor portado pra GPU do seu
        navegador: grade, os 13 looks (paramétricos + LUT looks), os 13 filmes, o estágio Render com White Point,
-       o balanço primário por canal, halation, glow, grain, vignette e monitor. Mesmos números
-       do DCTL v1.4, validados pixel a pixel contra o próprio plugin. Arraste na imagem para mover o wipe.</p>
+       o balanço primário por canal, halation, glow, grain, vignette e monitor. Mesma ordem de painel e os mesmos
+       números do DCTL v1.5, validados pixel a pixel contra o próprio plugin. Arraste na imagem para mover o wipe.</p>
   </div>
 
   <div class="estudio">
@@ -176,7 +178,7 @@ const GRAOS = ["8 mm ISO 50", "8 mm ISO 250", "8 mm ISO 500", "16 mm ISO 50", "1
 const BITOLAS = ["8 mm Super 8", "16 mm Super 16", "35 mm Super 35", "65 mm 70 mm"];
 
 // ---------------------------------------------------------------------------
-// WebGL2: engine completo portado do DCTL v1.4.0
+// WebGL2: engine completo portado do DCTL v1.5.0
 // ---------------------------------------------------------------------------
 const cv = document.getElementById('cv');
 const gl = cv.getContext('webgl2', { antialias: false, preserveDrawingBuffer: true });
@@ -792,25 +794,22 @@ const painel = document.getElementById('painel');
 // o Lift anda de 0.0005: com duas casas o numero nem se mexe
 const fmtVal = (k, v) => (+v).toFixed(k.startsWith('lift') ? 4 : 2);
 const SLIDERS = [
+  // mesma ordem de grupos do plugin v1.5: Render primeiro, porque e' o
+  // controle da conversao, e o resto na sequencia em que se trabalha
+  ['sec', 'Render'],
+  ['check', 'rendOn', 'Render Enabled'],
+  ['rendWhite', 'White Point', 1, 20, 0.05],
+  ['rendSh', 'Shoulder', 0, 0.9, 0.01],
+  ['rendDesat', 'Highlight Desat', 0, 1, 0.01],
+  ['rendGamut', 'Gamut Compress', 0, 1, 0.01],
   ['sec', 'Grade'],
   ['expo',   'Exposure Stops', -4, 4, 0.01],
-  ['temper', 'Temperature', -1, 1, 0.01],
-  ['tinta',  'Tint', -1, 1, 0.01],
   ['contr',  'Contrast', 0, 2, 0.01],
   ['sombra', 'Shadows', -1, 1, 0.01],
   ['altas',  'Highlights', -1, 1, 0.01],
   ['satur',  'Saturation', 0, 2, 0.01],
-  ['densid', 'Density', 0, 1, 0.01],
-  ['riquez', 'Richness', 0, 1, 0.01],
-  ['sec', 'Color Head'],
-  ['headYB', 'Yellow Blue', -100, 100, 0.5],
-  ['headMG', 'Magenta Green', -100, 100, 0.5],
-  ['headCR', 'Cyan Red', -100, 100, 0.5],
-  ['headShTone', 'Shadows Tone', -100, 100, 0.5],
-  ['headMidTone', 'Midtones Tone', -100, 100, 0.5],
-  ['headHiTone', 'Highlights Tone', -100, 100, 0.5],
-  ['headImpact', 'Impact', 0, 100, 0.5],
-  ['check', 'headOn', 'Head Enabled'],
+  ['temper', 'Temperature', -1, 1, 0.01],
+  ['tinta',  'Tint', -1, 1, 0.01],
   ['sec', 'Primaries'],
   ['liftM', 'Lift Master', -0.05, 0.05, 0.0005],
   ['liftR', 'Lift Red', -0.05, 0.05, 0.0005],
@@ -824,29 +823,19 @@ const SLIDERS = [
   ['gainR', 'Gain Red', 0.7, 1.4, 0.005],
   ['gainG', 'Gain Green', 0.7, 1.4, 0.005],
   ['gainB', 'Gain Blue', 0.7, 1.4, 0.005],
-  ['sec', 'Render'],
-  ['check', 'rendOn', 'Render Enabled'],
-  ['rendSh', 'Shoulder', 0, 0.9, 0.01],
-  ['rendWhite', 'White Point', 1, 20, 0.05],
-  ['rendDesat', 'Highlight Desat', 0, 1, 0.01],
-  ['rendGamut', 'Gamut Compress', 0, 1, 0.01],
   ['sec', 'Looks'],
   ['combo', 'lookMain', 'Main Look', LOOKS],
   ['forcaMain', 'Main Intensity', 0, 1, 0.01],
   ['combo', 'lookSub', 'Sub Look', LOOKS],
   ['forcaSub', 'Sub Intensity', 0, 1, 0.01],
+  ['densid', 'Density', 0, 1, 0.01],
+  ['riquez', 'Richness', 0, 1, 0.01],
   ['sec', 'Film'],
   ['combo', 'filmOpt', 'Film', FILMES],
   ['filmInt', 'Film Intensity', 0, 1, 0.01],
   ['sec', 'Grain'],
   ['combo', 'grainProf', 'Grain Profile', GRAOS],
   ['grao', 'Grain Amount', 0, 1, 0.01],
-  ['sec', 'Glow'],
-  ['combo', 'fmtProf', 'Glow Profile', BITOLAS],
-  ['glowa', 'Glow', 0, 1, 0.01],
-  ['glowAmp', 'Glow Amplify', 1, 4, 0.05],
-  ['check', 'glowOn', 'Glow Enabled'],
-  ['check', 'glowMask', 'Glow Show Mask'],
   ['sec', 'Halation'],
   ['halat', 'Halation', 0, 1, 0.01],
   ['halAmp', 'Halation Amplify', 1, 4, 0.05],
@@ -855,6 +844,21 @@ const SLIDERS = [
   ['halSat', 'Halation Saturation', 0, 2, 0.01],
   ['check', 'halOn', 'Halation Enabled'],
   ['check', 'halMask', 'Halation Show Isolation'],
+  ['sec', 'Glow'],
+  ['combo', 'fmtProf', 'Glow Profile', BITOLAS],
+  ['glowa', 'Glow', 0, 1, 0.01],
+  ['glowAmp', 'Glow Amplify', 1, 4, 0.05],
+  ['check', 'glowOn', 'Glow Enabled'],
+  ['check', 'glowMask', 'Glow Show Mask'],
+  ['sec', 'Color Head'],
+  ['headYB', 'Yellow Blue', -100, 100, 0.5],
+  ['headMG', 'Magenta Green', -100, 100, 0.5],
+  ['headCR', 'Cyan Red', -100, 100, 0.5],
+  ['headShTone', 'Shadows Tone', -100, 100, 0.5],
+  ['headMidTone', 'Midtones Tone', -100, 100, 0.5],
+  ['headHiTone', 'Highlights Tone', -100, 100, 0.5],
+  ['headImpact', 'Impact', 0, 100, 0.5],
+  ['check', 'headOn', 'Head Enabled'],
   ['sec', 'Vignette'],
   ['vinExpo', 'Exposure EV', -2, 2, 0.01],
   ['vinSize', 'Size', 0, 100, 0.5],
@@ -873,6 +877,13 @@ const SLIDERS = [
   ['combo', 'outOpt', 'Output', ['DaVinci Intermediate DWG', 'Rec 709 Gamma 2 4']],
 ];
 let html = `<div class="pcab"><div class="rot">DCTL</div><div class="nome">MendesColor · California Series Vol 1</div></div>`;
+// No Resolve os menus caem todos no fim do Inspector, porque ele agrupa por
+// tipo de controle. Aqui eles ficam no grupo a que pertencem: avisar, para
+// ninguem procurar no lugar errado depois de instalar.
+html += `<div class="pnota">Mesma ordem do plugin v1.5. No Resolve, os menus
+  (Input, Main Look, Sub Look, Film, Grain Profile, Glow Profile, Before Shows e
+  Output) aparecem juntos no fim do Inspector: o Resolve agrupa por tipo de
+  controle e nao ha como mudar isso num DCTL.</div>`;
 for (const row of SLIDERS) {
   if (row[0] === 'sec') { html += `<div class="psec">${row[1]}</div>`; continue; }
   if (row[0] === 'combo') {
