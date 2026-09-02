@@ -123,7 +123,7 @@
     <p class="sub">Frame ARRI ALEXA Mini LF em LogC3 e o pipeline completo do MendesColor portado pra GPU do seu
        navegador: grade, os 13 looks (paramétricos + LUT looks), os 13 filmes, o estágio Render com White Point,
        o balanço primário por canal, halation, glow, grain, vignette e monitor. Mesma ordem de painel e os mesmos
-       números do DCTL v1.6, validados pixel a pixel contra o próprio plugin. Arraste na imagem para mover o wipe.</p>
+       números do DCTL v1.7, validados pixel a pixel contra o próprio plugin. Arraste na imagem para mover o wipe.</p>
   </div>
 
   <div class="estudio">
@@ -138,7 +138,7 @@
 </main>
 
 <script src="engine-dados.js?v=115"></script>
-<script src="luts-meta.js?v=115"></script>
+<script src="luts-meta.js?v=117"></script>
 <script>
 // ---------------------------------------------------------------------------
 // Estado (mesmos nomes, faixas e defaults do DCTL)
@@ -160,7 +160,7 @@ const DEF = {
   liftM: 0.0, liftR: 0.0, liftG: 0.0, liftB: 0.0,
   gamM: 1.0, gamR: 1.0, gamG: 1.0, gamB: 1.0,
   gainM: 1.0, gainR: 1.0, gainG: 1.0, gainB: 1.0,
-  rendOn: 1, rendSh: 0.4, rendWhite: 1.0, rendDesat: 0.0, rendGamut: 0.5,
+  rendOn: 1, drtMix: 1.0, rendSh: 0.4, rendWhite: 1.0, rendDesat: 0.0, rendGamut: 0.5,
 };
 const P = { ...DEF };
 
@@ -178,7 +178,7 @@ const GRAOS = ["8 mm ISO 50", "8 mm ISO 250", "8 mm ISO 500", "16 mm ISO 50", "1
 const BITOLAS = ["8 mm Super 8", "16 mm Super 16", "35 mm Super 35", "65 mm 70 mm"];
 
 // ---------------------------------------------------------------------------
-// WebGL2: engine completo portado do DCTL v1.6.0
+// WebGL2: engine completo portado do DCTL v1.7.0
 // ---------------------------------------------------------------------------
 const cv = document.getElementById('cv');
 const gl = cv.getContext('webgl2', { antialias: false, preserveDrawingBuffer: true });
@@ -194,6 +194,7 @@ precision highp int;
 precision highp sampler3D;
 uniform sampler2D uTex;
 uniform sampler3D uLutM, uLutS;
+uniform sampler3D uDRT;
 uniform vec2 uRes;
 uniform int uInOpt, uOutOpt, uAntesMostra, uAntesDepois;
 uniform float uWipe, uExpo, uTemper, uTinta, uContr, uSombra, uAltas, uSatur, uDensid, uRiquez;
@@ -203,7 +204,7 @@ uniform vec3 uShTint, uHiTint;
 uniform mat3 uMatIn, uMatOut, uPrintXtalk;
 uniform float uLogc3Altas[29];
 uniform int uRendOn;
-uniform float uRendSh, uRendWhite, uRendDesat, uRendGamut;
+uniform float uRendSh, uRendWhite, uRendDesat, uRendGamut, uDrtMix;
 uniform float uLiftM, uLiftR, uLiftG, uLiftB;
 uniform float uGamM, uGamR, uGamG, uGamB;
 uniform float uGainM, uGainR, uGainG, uGainB;
@@ -361,12 +362,24 @@ float oetf709(float L) {
   if (L <= 0.0) { return 0.0; }
   return (L < 0.018) ? (4.5 * L) : (1.099 * pow(L, 0.45) - 0.099);
 }
+float oetf709_inv(float V) {
+  if (V <= 0.0) { return 0.0; }
+  return (V < 0.081) ? (V / 4.5) : pow((V + 0.099) / 1.099, 1.0 / 0.45);
+}
+// Tone map de exibicao medido no Color Space Transform do Resolve.
+const float DRT_N = 33.0;
+vec3 render_drt(vec3 rec) {
+  vec3 s = clamp(vec3(di_encode(rec.r), di_encode(rec.g), di_encode(rec.b)), 0.0, 1.0);
+  vec3 d = texture(uDRT, (s * (DRT_N - 1.0) + 0.5) / DRT_N).rgb;
+  return vec3(oetf709_inv(d.r), oetf709_inv(d.g), oetf709_inv(d.b));
+}
 vec3 render_rec709(vec3 d) {
   vec3 rec = uMatOut * d;
   float gi = 1.0 / 2.4;
   if (uRendOn == 0) {
-    vec3 s = clamp(vec3(shoulder709(rec.r), shoulder709(rec.g), shoulder709(rec.b)), 0.0, 1.0);
-    return pow(s, vec3(gi));
+    vec3 s = vec3(shoulder709(rec.r), shoulder709(rec.g), shoulder709(rec.b));
+    if (uDrtMix > 0.0) { s = mix(s, render_drt(rec), uDrtMix); }
+    return pow(clamp(s, 0.0, 1.0), vec3(gi));
   }
   if (uRendGamut > 0.0) {
     float ach = max(rec.r, max(rec.g, rec.b));
@@ -378,6 +391,7 @@ vec3 render_rec709(vec3 d) {
       rec = vec3(ach - cr * ach, ach - cg * ach, ach - cb * ach);
     }
   }
+  vec3 recTM = rec;
   float p = clamp(1.0 - uRendSh, 0.0, 1.0);
   if (uRendDesat > 0.0) {
     float n0 = max(rec.r, max(rec.g, rec.b));
@@ -386,9 +400,11 @@ vec3 render_rec709(vec3 d) {
       rec += (vec3(n0) - rec) * (tw * uRendDesat);
     }
   }
+  vec3 tm = (uDrtMix > 0.0) ? render_drt(recTM) : vec3(0.0);
   rec = vec3(render_ombro(rec.r, p, uRendWhite),
              render_ombro(rec.g, p, uRendWhite),
              render_ombro(rec.b, p, uRendWhite));
+  if (uDrtMix > 0.0) { rec = mix(rec, tm, uDrtMix); }
   return pow(clamp(rec, 0.0, 1.0), vec3(gi));
 }
 vec3 monitor_overlay(vec3 o) {
@@ -707,6 +723,7 @@ gl.uniform2f(U.uRes, cv.width, cv.height);
 gl.uniform1i(U.uTex, 0);
 gl.uniform1i(U.uLutM, 2);
 gl.uniform1i(U.uLutS, 3);
+gl.uniform1i(U.uDRT, 4);
 gl.uniform1i(U.uFrame, 1);
 
 let texPronta = false;
@@ -746,7 +763,8 @@ function render() {
     'uLiftM|liftM', 'uLiftR|liftR', 'uLiftG|liftG', 'uLiftB|liftB',
     'uGamM|gamM', 'uGamR|gamR', 'uGamG|gamG', 'uGamB|gamB',
     'uGainM|gainM', 'uGainR|gainR', 'uGainG|gainG', 'uGainB|gainB',
-    'uRendSh|rendSh', 'uRendWhite|rendWhite', 'uRendDesat|rendDesat', 'uRendGamut|rendGamut']) {
+    'uRendSh|rendSh', 'uRendWhite|rendWhite', 'uRendDesat|rendDesat', 'uRendGamut|rendGamut',
+    'uDrtMix|drtMix']) {
     const [uni, chave] = k.split('|');
     gl.uniform1f(U[uni], P[chave]);
   }
@@ -776,6 +794,21 @@ fetch('teste10-log.f16').then(r => r.arrayBuffer()).then(bufIn => {
 // Slot M usa a unidade de textura 2, slot S a unidade 3.
 const lutCache = {};
 const lutTexSlots = { M: gl.createTexture(), S: gl.createTexture() };
+const drtTex = gl.createTexture();
+async function carregaDRT() {
+  const dados = new Uint16Array(await (await fetch('lut-drt.f16')).arrayBuffer());
+  gl.activeTexture(gl.TEXTURE4);
+  gl.bindTexture(gl.TEXTURE_3D, drtTex);
+  gl.texImage3D(gl.TEXTURE_3D, 0, gl.RGBA16F, 33, 33, 33, 0, gl.RGBA, gl.HALF_FLOAT, dados);
+  gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_3D, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
+  gl.activeTexture(gl.TEXTURE0);
+  render();
+}
+carregaDRT();
 async function usarLutSlot(slot, lookIdx) {
   if (lookIdx < 4) { return; }
   const meta = LUTS_META[lookIdx - 4];
@@ -807,6 +840,7 @@ const SLIDERS = [
   // controle da conversao, e o resto na sequencia em que se trabalha
   ['sec', 'Render'],
   ['check', 'rendOn', 'Render Enabled'],
+  ['drtMix', 'Tone Map', 0, 1, 0.01],
   ['rendWhite', 'White Point', 1, 20, 0.05],
   ['rendSh', 'Shoulder', 0, 0.9, 0.01],
   ['rendDesat', 'Highlight Desat', 0, 1, 0.01],
@@ -889,7 +923,7 @@ let html = `<div class="pcab"><div class="rot">DCTL</div><div class="nome">Mende
 // No Resolve os menus caem todos no fim do Inspector, porque ele agrupa por
 // tipo de controle. Aqui eles ficam no grupo a que pertencem: avisar, para
 // ninguem procurar no lugar errado depois de instalar.
-html += `<div class="pnota">Mesma ordem do plugin v1.5. No Resolve, os menus
+html += `<div class="pnota">Mesma ordem do plugin v1.7. No Resolve, os menus
   (Input, Main Look, Sub Look, Film, Grain Profile, Glow Profile, Before Shows e
   Output) aparecem juntos no fim do Inspector: o Resolve agrupa por tipo de
   controle e nao ha como mudar isso num DCTL.</div>`;
@@ -999,6 +1033,8 @@ async function validar() {
     ['ref-v11',       { grao: 0.4, halat: 0.6, glowa: 0.3, halAmp: 2.0, halThresh: 0.35,
                         halSpread: 0.6, halSat: 1.5, glowAmp: 2.0, headShTone: 30,
                         headMidTone: -10, headHiTone: -20, headImpact: 80, grainProf: 10 }],
+    ['ref-drt',       { drtMix: 0.35, rendWhite: 6.0, rendSh: 0.7, rendDesat: 0.3, expo: 1.0 }],
+    ['ref-drt0',      { drtMix: 0.0, rendWhite: 3.0, rendSh: 0.6 }],
   ];
   const fbTex = gl.createTexture();
   gl.activeTexture(gl.TEXTURE1);
