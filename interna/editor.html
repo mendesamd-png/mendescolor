@@ -787,7 +787,7 @@ fetch('teste10-log.f16').then(r => r.arrayBuffer()).then(bufIn => {
   render();
   if (DEF.lookSub >= 4) { usarLutSlot('S', DEF.lookSub); }
   if (DEF.lookMain >= 4) { usarLutSlot('M', DEF.lookMain); }
-  if (new URLSearchParams(location.search).has('val')) { validar(); }
+  if (new URLSearchParams(location.search).has('val')) { drtPronto.then(validar); }
 });
 
 // LUT looks em resolucao nativa, um arquivo por LUT, cache em memoria.
@@ -808,7 +808,10 @@ async function carregaDRT() {
   gl.activeTexture(gl.TEXTURE0);
   render();
 }
-carregaDRT();
+// Promessa da textura do tone map: quem precisa da imagem correta espera por
+// ela. Sem isso o primeiro quadro pode sair sem tone map, porque a textura
+// chega depois do primeiro render.
+const drtPronto = carregaDRT();
 async function usarLutSlot(slot, lookIdx) {
   if (lookIdx < 4) { return; }
   const meta = LUTS_META[lookIdx - 4];
@@ -917,13 +920,13 @@ const SLIDERS = [
   ['combo', 'antesMostra', 'Before Shows', ['Original Log', 'Rec 709 Base']],
   ['sec', 'IO'],
   ['combo', 'inOpt', 'Input', ENTRADAS],
-  ['combo', 'outOpt', 'Output', ['DaVinci Intermediate DWG', 'Rec 709 Gamma 2 4', 'Rec 709 Scene BT 709']],
+  ['combo', 'outOpt', 'Output', ['DaVinci Intermediate DWG', 'Timeline Rec 709 Gamma 2 4', 'Timeline Rec 709 Scene']],
 ];
 let html = `<div class="pcab"><div class="rot">DCTL</div><div class="nome">MendesColor · California Series Vol 1</div></div>`;
 // No Resolve os menus caem todos no fim do Inspector, porque ele agrupa por
 // tipo de controle. Aqui eles ficam no grupo a que pertencem: avisar, para
 // ninguem procurar no lugar errado depois de instalar.
-html += `<div class="pnota">Mesma ordem do plugin v1.7. No Resolve, os menus
+html += `<div class="pnota">Mesma ordem do plugin v1.7. O Output aqui vem em gamma 2.4 porque o canvas do navegador é uma superfície de display; no plugin o padrão é Timeline Rec 709 Scene. Escolha a linha que casar com a sua timeline. No Resolve, os menus
   (Input, Main Look, Sub Look, Film, Grain Profile, Glow Profile, Before Shows e
   Output) aparecem juntos no fim do Inspector: o Resolve agrupa por tipo de
   controle e nao ha como mudar isso num DCTL.</div>`;

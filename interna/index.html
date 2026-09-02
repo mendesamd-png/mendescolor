@@ -238,7 +238,7 @@
   <h2>O plugin, ao vivo.</h2>
   <p class="sub">Frame ARRI ALEXA Mini LF em LogC3 e o pipeline completo rodando na GPU do seu navegador: grade, looks,
      os 13 filmes, o estágio Render com White Point, o balanço primário por canal, halation, glow, grain,
-     vignette, as LUT looks e o monitor. Mesma ordem de painel e os mesmos números do DCTL v1.5, validados
+     vignette, as LUT looks e o monitor. Mesma ordem de painel e os mesmos números do DCTL v1.7, validados
      pixel a pixel contra o próprio plugin. Arraste na imagem para mover o wipe.
      <a href="editor.html?v=150" style="color:var(--accent);">Abrir em tela cheia&nbsp;&#8599;</a></p>
   <iframe id="edframe" src="editor.html?embed=1&amp;v=150" loading="lazy" title="Editor MendesColor"
@@ -337,19 +337,22 @@
   <div class="steps">
     <div class="step glass"><span class="n">01</span><b>Instalar</b><span>Baixe o pacote no botão acima. Copie "MendesColor v1.7.dctl" e a pasta "looks/" para a pasta de LUTs do Resolve (Project Settings › Color Management › Open LUT Folder abre a pasta certa no Mac e no Windows) e reinicie o Resolve. Detalhes no LEIA-ME do pacote.</span></div>
     <div class="step glass"><span class="n">02</span><b>Aplicar</b><span>Importe o "MendesColor - PowerGrade.drx" na Gallery da página Color e arraste o still no clipe: o node chega com o plugin já selecionado, sem passar pelo None.</span></div>
-    <div class="step glass"><span class="n">03</span><b>Rodar em job de verdade</b><span>Use material real do seu job: skin tone, playback em 4K, as 11 câmeras, os 13 filmes, halation e grain em movimento. Puxe o Render White Point num plano com sol ou janela: é o controle novo desta versão.</span></div>
+    <div class="step glass"><span class="n">03</span><b>Rodar em job de verdade</b><span>Use material real do seu job: skin tone, playback em 4K, as 11 câmeras, os 13 filmes, halation e grain em movimento. Olhe um plano com sol ou janela e alterne o Tone Map entre 1 e 0: é o controle novo desta versão, e é ele que fecha as altas em vez de cortar.</span></div>
     <div class="step glass"><span class="n">04</span><b>Feedback</b><span>O que estranhar, quebrar ou faltar: fala direto com o Douglas. É daqui que sai a próxima versão.</span></div>
   </div>
-  <div class="note">Build atual: v1.7.0 · Volume 1 · a pasta looks/ contém as 9 LUT looks e o tone map de exibição, e precisa ser instalada junto.
-     <b>Comparando com um Color Space Transform?</b> Ponha o CST com Tone Mapping em None, e escolha aqui a saída
-     que corresponde ao Output dele: se o CST está em "Use timeline" e a timeline é Rec.709 (Scene), use a saída
-     <b>Rec 709 Scene</b>; se está em Rec.709 / Gamma 2.4, use a de sempre. Nessas condições as duas conversões
-     batem em 0,04 IRE de diferença média, medido contra um render real de CST.
-     A v1.5 devolvia pixel idêntico à v1.4 com os mesmos parâmetros, conferido bit a bit em nove configurações:
-     o que mudou foi a ordem do painel, com o Render no topo e o balanço primário logo abaixo da grade.
-     <b>Mas o PowerGrade e os nodes da v1.4 não servem aqui:</b> os slots de parâmetro do OFX são posicionais, então grade
-     antiga aplicada nesta versão põe valor em parâmetro errado, sem avisar. Use o PowerGrade que vem no pacote.
-     As versões convivem na mesma pasta porque os nomes de arquivo são diferentes.</div>
+  <div class="note">Build atual: v1.7.0 · Volume 1 · a pasta looks/ traz as 9 LUT looks e o tone map de exibição, e precisa ser instalada junto.
+     <b>O Output precisa casar com a sua timeline.</b> Em Project Settings › Color Management, veja o Timeline color space
+     e escolha a linha de mesmo nome no menu Output do plugin: <b>Timeline Rec 709 Scene</b> (o padrão, e o que os projetos
+     da casa usam) ou <b>Timeline Rec 709 Gamma 2 4</b>. Errar aqui não dá erro na tela, só uma imagem cerca de
+     8 IRE fora do lugar, quase toda nas sombras, que parece defeito de conversão.
+     <b>Comparando com um Color Space Transform?</b> Com o Output certo e o Tone Map em 1.0, o plugin entrega a mesma
+     imagem que o CST com Tone Mapping = DaVinci: medido contra render real do Resolve, 0,08 IRE de rms e 0,8 IRE de pior caso.
+     Se o seu CST estiver com Tone Mapping em None, ponha o Tone Map do plugin em 0.
+     <b>PowerGrade e nodes da v1.6 não servem aqui:</b> entrou o slider Tone Map no início do Render e os slots de parâmetro
+     do OFX são posicionais, então grade antiga aplicada nesta versão põe valor em parâmetro errado, sem avisar.
+     Use o PowerGrade que vem no pacote. As versões convivem na mesma pasta porque os nomes de arquivo são diferentes.
+     <b>Se o Resolve disser que o DCTL está faltando</b> mesmo com o arquivo no lugar, é diferença de maiúscula no nome da
+     pasta: chame a pasta de exatamente <b>MendesColor</b>, ou escolha "MendesColor v1.7" na lista do Inspector uma vez.</div>
 </section>
 
 <section style="padding-top: 0;">
