@@ -3,8 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MendesColor · Interna</title>
+<title>MendesColor · California Vol. 1</title>
 <meta name="robots" content="noindex, nofollow">
+<!-- Card de compartilhamento. O WhatsApp le og:title/og:description/og:image e
+     so' cai no <title> quando nao acha og:title. A imagem tem que ser absoluta
+     e leve: acima de ~600 KB o WhatsApp costuma nao montar o preview grande. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MendesColor">
+<meta property="og:title" content="MendesColor · California Vol. 1">
+<meta property="og:description" content="O plugin de cor da Agência California. Um node: converte o log da sua câmera e dá o look. Instalação, tutorial e download.">
+<meta property="og:url" content="https://mendesamd-png.github.io/mendescolor/interna/">
+<meta property="og:image" content="https://mendesamd-png.github.io/mendescolor/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MendesColor · California Vol. 1">
+<meta name="twitter:description" content="O plugin de cor da Agência California. Um node: converte o log da sua câmera e dá o look.">
+<meta name="twitter:image" content="https://mendesamd-png.github.io/mendescolor/img/og-card.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap">
@@ -203,7 +218,14 @@
   .tut .frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
   /* apoio opcional */
-  .pix { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 28px; }
+  .pix { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 28px; }
+  /* O QR fica sempre em fundo branco, nos dois temas: leitor de celular precisa
+     de modulo escuro sobre claro. Os 16 px de respiro sao a zona de silencio
+     de 4 modulos que a norma pede (o SVG sai sem borda). */
+  .pixqr { background: #fff; padding: 16px; border-radius: 20px; line-height: 0;
+           border: 1px solid var(--border); box-shadow: 0 10px 30px var(--shadow); }
+  .pixqr svg { width: 190px; height: 190px; display: block; shape-rendering: crispEdges; }
+  .pixcol { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; min-width: 0; }
   .pixbtn { display: inline-flex; align-items: center; gap: 9px; padding: 15px 28px; border-radius: 999px;
             text-decoration: none; color: var(--text); font-weight: 600; font-size: 15px;
             transition: transform .2s, box-shadow .2s; }
@@ -218,7 +240,9 @@
   .pixkey button { border: 0; background: none; cursor: pointer; color: var(--accent);
                    font: inherit; font-weight: 600; padding: 0; }
   @media (max-width: 620px) {
-    .pix { flex-direction: column; align-items: flex-start; }
+    .pix { flex-direction: column; align-items: stretch; }
+    .pixqr { align-self: center; }
+    .pixcol { align-items: stretch; }
     .pixbtn, .pixkey { width: 100%; justify-content: center; }
     .pixkey { border-radius: 20px; }
   }
@@ -413,17 +437,21 @@
   <div class="eyebrow">Opcional</div>
   <h2>Se te poupou uma diária.</h2>
   <p class="sub">O MendesColor é da casa e continua de graça pra todo mundo aqui: sem trava, sem licença, sem prazo.
-     Ele foi feito fora do horário, ao longo de alguns meses. Se em algum job ele te economizou uma tarde de grade e
+     Ele foi feito fora do horário, ao longo de algumas semanas. Se em algum job ele te economizou uma tarde de grade e
      você quiser mandar um valor, qualquer um, o Pix está aqui. Se não mandar, segue exatamente igual:
      continua seu, continua atualizado, e o Volume 2 vem do mesmo jeito.</p>
   <div class="pix">
-    <a class="pixbtn glass" href="https://nubank.com.br/cobrar/4ezez/6a9f6d9a-54ac-4874-86c1-511ab4686ff5"
-       target="_blank" rel="noopener noreferrer">Fazer um Pix &middot; valor livre&nbsp;&#8599;</a>
-    <span class="pixkey glass">Chave&nbsp; <code id="pixkey">a280335d-5cfd-440d-a7c8-44ccace31cf9</code>
-      <button type="button" id="pixcopy">copiar</button></span>
+    <div class="pixqr" aria-label="QR Code do Pix"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 53 53"><path stroke="#0c0c11" d="M0 0.5h7m4 0h2m1 0h1m2 0h1m6 0h1m3 0h5m2 0h1m1 0h6m3 0h7m-53 1h1m5 0h1m2 0h1m1 0h3m1 0h5m1 0h1m1 0h3m1 0h1m7 0h1m4 0h1m1 0h2m2 0h1m5 0h1m-53 1h1m1 0h3m1 0h1m1 0h2m1 0h1m1 0h2m1 0h2m2 0h1m3 0h1m4 0h2m1 0h6m5 0h1m2 0h1m1 0h3m1 0h1m-53 1h1m1 0h3m1 0h1m1 0h6m1 0h1m2 0h1m1 0h2m3 0h1m3 0h2m2 0h1m2 0h1m5 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-53 1h1m1 0h3m1 0h1m1 0h1m3 0h2m2 0h2m2 0h1m1 0h9m1 0h2m1 0h3m3 0h2m3 0h1m1 0h3m1 0h1m-53 1h1m5 0h1m1 0h1m1 0h1m2 0h1m3 0h1m1 0h2m3 0h1m3 0h1m4 0h2m1 0h1m2 0h4m3 0h1m5 0h1m-53 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-45 1h1m2 0h1m2 0h1m2 0h4m2 0h2m3 0h1m1 0h1m2 0h2m1 0h2m2 0h4m-44 1h1m1 0h5m5 0h4m4 0h2m2 0h5m2 0h2m2 0h2m2 0h1m1 0h4m1 0h5m-51 1h1m3 0h1m2 0h1m4 0h1m2 0h2m1 0h2m2 0h1m1 0h1m2 0h2m1 0h1m1 0h2m2 0h1m2 0h1m2 0h2m1 0h1m2 0h1m3 0h1m-53 1h1m2 0h2m1 0h1m1 0h1m4 0h1m2 0h3m1 0h2m1 0h1m3 0h1m1 0h1m1 0h2m1 0h1m1 0h1m1 0h4m1 0h1m2 0h1m1 0h4m-52 1h1m2 0h2m5 0h1m7 0h3m2 0h2m3 0h1m1 0h4m1 0h1m3 0h5m2 0h2m3 0h1m-52 1h1m1 0h1m3 0h1m4 0h1m1 0h2m3 0h2m5 0h3m1 0h2m5 0h1m5 0h3m3 0h4m-49 1h1m1 0h1m1 0h2m2 0h2m3 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m2 0h2m2 0h1m2 0h1m2 0h1m5 0h2m-53 1h1m1 0h7m3 0h4m1 0h1m1 0h1m1 0h3m1 0h1m1 0h1m1 0h3m3 0h5m3 0h2m1 0h3m-48 1h1m5 0h3m1 0h2m6 0h1m1 0h2m1 0h2m2 0h2m1 0h2m1 0h2m4 0h1m-39 1h2m1 0h6m3 0h2m3 0h2m2 0h2m1 0h2m3 0h1m1 0h2m1 0h4m1 0h2m1 0h1m2 0h4m-51 1h2m5 0h7m1 0h1m1 0h2m2 0h2m5 0h5m1 0h2m1 0h1m4 0h2m1 0h1m1 0h2m3 0h1m-53 1h3m1 0h1m1 0h1m1 0h1m1 0h5m1 0h5m1 0h1m4 0h1m1 0h5m2 0h1m2 0h1m1 0h1m2 0h1m1 0h2m2 0h1m-51 1h2m1 0h1m4 0h1m2 0h1m3 0h2m1 0h8m1 0h1m2 0h1m1 0h1m3 0h1m2 0h1m2 0h2m3 0h1m1 0h1m-48 1h1m1 0h4m2 0h2m2 0h2m1 0h1m1 0h1m2 0h1m4 0h5m1 0h5m1 0h1m1 0h1m1 0h2m3 0h1m1 0h3m-53 1h2m1 0h3m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h2m2 0h1m1 0h5m1 0h1m3 0h1m2 0h1m5 0h1m3 0h1m-53 1h1m2 0h4m3 0h3m2 0h2m1 0h1m1 0h2m2 0h2m2 0h1m4 0h5m1 0h1m1 0h1m2 0h3m1 0h2m1 0h1m-50 1h2m3 0h1m1 0h1m6 0h1m4 0h3m3 0h4m3 0h1m1 0h1m3 0h4m1 0h1m3 0h1m1 0h1m-51 1h1m2 0h6m1 0h1m1 0h1m4 0h1m1 0h2m2 0h6m1 0h1m3 0h1m2 0h2m1 0h2m1 0h6m-50 1h1m1 0h1m1 0h1m3 0h1m2 0h2m1 0h1m3 0h2m2 0h3m3 0h6m3 0h1m1 0h1m2 0h1m1 0h1m3 0h1m3 0h1m-53 1h1m1 0h1m1 0h1m1 0h1m1 0h2m4 0h1m2 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m5 0h2m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m-51 1h1m2 0h1m3 0h3m5 0h2m3 0h4m3 0h1m1 0h2m1 0h1m1 0h4m1 0h1m3 0h1m3 0h1m2 0h1m-52 1h1m3 0h5m2 0h4m1 0h2m1 0h1m1 0h1m1 0h8m2 0h5m1 0h1m2 0h1m1 0h8m-51 1h2m2 0h1m1 0h2m1 0h4m1 0h1m2 0h1m1 0h1m1 0h5m1 0h1m1 0h2m1 0h1m2 0h2m4 0h1m1 0h1m1 0h1m1 0h1m3 0h1m-52 1h3m1 0h4m1 0h3m4 0h1m6 0h3m1 0h2m4 0h1m1 0h1m1 0h1m2 0h1m3 0h1m2 0h4m-52 1h1m2 0h1m3 0h2m4 0h2m2 0h4m3 0h1m1 0h2m1 0h1m1 0h2m2 0h1m4 0h2m1 0h2m1 0h3m2 0h1m-51 1h2m3 0h4m1 0h1m2 0h1m1 0h1m2 0h1m3 0h1m1 0h3m8 0h1m1 0h2m1 0h2m2 0h1m1 0h1m1 0h2m1 0h1m-53 1h1m1 0h3m4 0h1m2 0h2m2 0h1m1 0h1m1 0h4m3 0h1m1 0h1m1 0h2m4 0h1m1 0h1m2 0h1m1 0h1m3 0h1m3 0h1m-53 1h1m5 0h1m3 0h1m3 0h1m6 0h1m6 0h1m1 0h4m2 0h1m4 0h1m2 0h2m5 0h1m-51 1h1m2 0h2m2 0h2m2 0h3m1 0h1m1 0h2m5 0h1m4 0h1m1 0h2m6 0h1m2 0h1m2 0h1m1 0h1m-49 1h1m1 0h2m1 0h3m1 0h1m1 0h1m1 0h5m1 0h2m9 0h2m3 0h3m1 0h1m2 0h1m4 0h1m1 0h2m1 0h1m-49 1h1m2 0h1m1 0h1m2 0h1m1 0h1m1 0h4m2 0h6m1 0h2m2 0h1m1 0h1m1 0h1m1 0h1m2 0h1m5 0h1m2 0h2m-51 1h2m2 0h1m1 0h3m10 0h1m2 0h1m3 0h1m1 0h2m3 0h2m2 0h1m1 0h1m5 0h3m-50 1h1m1 0h1m2 0h1m1 0h1m2 0h1m2 0h2m2 0h1m5 0h1m1 0h3m2 0h1m1 0h1m1 0h1m1 0h4m1 0h8m-49 1h1m2 0h1m1 0h4m4 0h1m1 0h2m1 0h1m1 0h2m3 0h1m3 0h1m1 0h1m1 0h4m1 0h2m4 0h2m2 0h1m1 0h1m-49 1h1m1 0h2m2 0h3m1 0h4m2 0h2m3 0h2m1 0h1m2 0h2m6 0h3m2 0h2m2 0h3m1 0h1m1 0h1m-53 1h2m1 0h6m2 0h1m3 0h4m1 0h1m10 0h1m1 0h1m1 0h1m3 0h3m2 0h2m2 0h1m1 0h2m-51 1h2m4 0h2m2 0h1m6 0h1m4 0h4m2 0h1m5 0h2m3 0h1m1 0h2m2 0h1m1 0h2m1 0h1m-49 1h1m2 0h2m1 0h1m1 0h3m2 0h1m1 0h1m1 0h1m3 0h5m1 0h2m1 0h1m2 0h1m1 0h2m1 0h2m1 0h5m1 0h2m-44 1h2m2 0h1m2 0h3m1 0h6m3 0h3m1 0h2m1 0h2m2 0h1m2 0h1m1 0h1m3 0h1m3 0h1m-53 1h7m3 0h1m1 0h2m3 0h1m4 0h1m1 0h1m1 0h1m1 0h1m5 0h1m1 0h1m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m-52 1h1m5 0h1m1 0h1m1 0h1m1 0h1m1 0h6m1 0h2m1 0h1m3 0h3m9 0h1m1 0h1m1 0h1m3 0h1m2 0h1m-52 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h4m2 0h1m2 0h1m1 0h5m1 0h4m2 0h2m1 0h1m2 0h1m1 0h9m-53 1h1m1 0h3m1 0h1m1 0h2m7 0h1m1 0h1m1 0h1m1 0h3m4 0h1m1 0h1m2 0h1m3 0h2m1 0h3m1 0h2m1 0h1m-50 1h1m1 0h3m1 0h1m1 0h3m2 0h3m1 0h1m2 0h2m2 0h1m1 0h4m1 0h3m1 0h1m1 0h2m2 0h1m3 0h2m1 0h2m1 0h2m-53 1h1m5 0h1m2 0h1m2 0h1m1 0h2m14 0h1m3 0h3m3 0h3m5 0h2m1 0h1m-52 1h7m1 0h1m1 0h2m1 0h1m1 0h1m2 0h7m2 0h1m1 0h3m1 0h1m1 0h2m1 0h2m2 0h1m2 0h2m1 0h1m1 0h1"/></svg></div>
+    <div class="pixcol">
+      <a class="pixbtn glass" href="https://nubank.com.br/cobrar/4ezez/6a9f6d9a-54ac-4874-86c1-511ab4686ff5"
+         target="_blank" rel="noopener noreferrer">Faz um pix aí! &middot; valor livre&nbsp;&#8599;</a>
+      <span class="pixkey glass">Chave&nbsp; <code id="pixkey">a280335d-5cfd-440d-a7c8-44ccace31cf9</code>
+        <button type="button" id="pixcopy">copiar</button></span>
+    </div>
   </div>
-  <div class="note">A chave é aleatória, então não expõe telefone nem e-mail. O link abre a cobrança do Nubank,
-     que aceita Pix de qualquer banco e deixa você digitar o valor.</div>
+  <div class="note">O QR é o código oficial dessa cobrança e funciona no app de qualquer banco, sem valor
+     travado: você digita quanto quiser. O botão abre a mesma cobrança no navegador. A chave é aleatória,
+     então não expõe telefone nem e-mail.</div>
 </section>
 
 <footer>MendesColor · California Vol. 1 · versão interna da agência · by Douglas Mendes</footer>
