@@ -190,6 +190,38 @@
   .dl span { font-size: 13px; color: rgba(255,255,255,0.86); position: relative; }
   .dl:hover { transform: translateY(-2px); box-shadow: 0 18px 50px rgba(139,92,246,0.34); }
   .note { font-size: 13px; color: var(--faint); margin-top: 18px; line-height: 1.5; }
+
+  /* tutorial em video: fica dentro do "Como instalar", nao no topo. O topo ja
+     prova o produto em dois segundos com o wipe e com o editor ao vivo; um
+     video de dez minutos ali trocaria prova instantanea por compromisso. */
+  .tut { margin-top: 30px; padding: 22px; }
+  .tut > b { display: block; font-size: 18px; margin-bottom: 7px; }
+  .tut .cap { font-size: 13.5px; color: var(--muted); line-height: 1.55; display: block; max-width: 76ch; }
+  .tut .cap b { color: var(--text); font-weight: 600; }   /* inline: nao herdar o display:block do titulo */
+  .tut .frame { position: relative; padding-top: 56.25%; margin-top: 18px;
+                border-radius: 16px; overflow: hidden; background: #000; }
+  .tut .frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+  /* apoio opcional */
+  .pix { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 28px; }
+  .pixbtn { display: inline-flex; align-items: center; gap: 9px; padding: 15px 28px; border-radius: 999px;
+            text-decoration: none; color: var(--text); font-weight: 600; font-size: 15px;
+            transition: transform .2s, box-shadow .2s; }
+  .pixbtn:hover { transform: translateY(-2px); box-shadow: 0 14px 34px var(--shadow); }
+  .pixkey { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 12px;
+            padding: 13px 18px; border-radius: 999px; max-width: 100%;
+            font-size: 13px; color: var(--muted); }
+  /* min-width:0 e' o que impede a chave, que e' uma string sem espaco, de
+     empurrar a largura minima do flex e alargar a pagina inteira no celular. */
+  .pixkey code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px;
+                 color: var(--text); letter-spacing: -0.01em; min-width: 0; overflow-wrap: anywhere; }
+  .pixkey button { border: 0; background: none; cursor: pointer; color: var(--accent);
+                   font: inherit; font-weight: 600; padding: 0; }
+  @media (max-width: 620px) {
+    .pix { flex-direction: column; align-items: flex-start; }
+    .pixbtn, .pixkey { width: 100%; justify-content: center; }
+    .pixkey { border-radius: 20px; }
+  }
 </style>
 </head>
 <body>
@@ -334,6 +366,21 @@
     <b>&#8595;&nbsp; Baixar o MendesColor v1.7.0</b>
     <span>DCTL + 13 looks + tone map + PowerGrade + leia-me · 8,9 MB</span>
   </a>
+
+  <div class="tut glass">
+    <b>Assista antes de instalar &middot; 10 min</b>
+    <span class="cap">Do download ao primeiro grade, na máquina, em tempo real. Se for pular alguma coisa, não pule
+       o bloco do <b>Input e do Output</b>: são as duas escolhas que, quando erradas, não dão erro nenhum na tela
+       e só entregam a imagem fora do lugar. Confirme também que você está no Resolve <b>Studio</b> 19.1 ou
+       acima, porque na versão gratuita DCTL não roda.</span>
+    <div class="frame">
+      <iframe src="https://player.vimeo.com/video/1224777636?h=4034fb5f5a&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+              loading="lazy" title="MendesColor · California Vol. 1 · tutorial"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+  </div>
+
   <div class="steps">
     <div class="step glass"><span class="n">01</span><b>Instalar</b><span>Baixe o pacote no botão acima. Copie "MendesColor v1.7.dctl" e a pasta "looks/" para a pasta de LUTs do Resolve (Project Settings › Color Management › Open LUT Folder abre a pasta certa no Mac e no Windows) e reinicie o Resolve. Detalhes no LEIA-ME do pacote.</span></div>
     <div class="step glass"><span class="n">02</span><b>Aplicar</b><span>Importe o "MendesColor - PowerGrade.drx" na Gallery da página Color e arraste o still no clipe: o node chega com o plugin já selecionado, sem passar pelo None.</span></div>
@@ -360,6 +407,23 @@
   <h2>Volume 2.</h2>
   <p class="sub">Este é o California Vol. 1, a primeira edição do MendesColor. O Vol. 2 já está em produção:
      o que vocês apontarem aqui entra na fila primeiro.</p>
+</section>
+
+<section id="apoio" style="padding-top: 0;">
+  <div class="eyebrow">Opcional</div>
+  <h2>Se te poupou uma diária.</h2>
+  <p class="sub">O MendesColor é da casa e continua de graça pra todo mundo aqui: sem trava, sem licença, sem prazo.
+     Ele foi feito fora do horário, ao longo de alguns meses. Se em algum job ele te economizou uma tarde de grade e
+     você quiser mandar um valor, qualquer um, o Pix está aqui. Se não mandar, segue exatamente igual:
+     continua seu, continua atualizado, e o Volume 2 vem do mesmo jeito.</p>
+  <div class="pix">
+    <a class="pixbtn glass" href="https://nubank.com.br/cobrar/4ezez/6a9f6d9a-54ac-4874-86c1-511ab4686ff5"
+       target="_blank" rel="noopener noreferrer">Fazer um Pix &middot; valor livre&nbsp;&#8599;</a>
+    <span class="pixkey glass">Chave&nbsp; <code id="pixkey">a280335d-5cfd-440d-a7c8-44ccace31cf9</code>
+      <button type="button" id="pixcopy">copiar</button></span>
+  </div>
+  <div class="note">A chave é aleatória, então não expõe telefone nem e-mail. O link abre a cobrança do Nubank,
+     que aceita Pix de qualquer banco e deixa você digitar o valor.</div>
 </section>
 
 <footer>MendesColor · California Vol. 1 · versão interna da agência · by Douglas Mendes</footer>
@@ -480,6 +544,29 @@
       sx = null;
     });
   });
+
+  // copiar a chave Pix. navigator.clipboard so' existe em https e em localhost,
+  // entao tem fallback: fora desses casos, seleciona pro cara copiar na mao.
+  (function () {
+    const bt = document.getElementById('pixcopy');
+    const el = document.getElementById('pixkey');
+    if (!bt || !el) return;
+    bt.addEventListener('click', async () => {
+      const txt = el.textContent.trim();
+      try {
+        await navigator.clipboard.writeText(txt);
+        bt.textContent = 'copiado';
+      } catch (e) {
+        const r = document.createRange();
+        r.selectNodeContents(el);
+        const s = window.getSelection();
+        s.removeAllRanges();
+        s.addRange(r);
+        bt.textContent = 'copie com Ctrl+C';
+      }
+      setTimeout(() => { bt.textContent = 'copiar'; }, 2200);
+    });
+  })();
 </script>
 </body>
 </html>
